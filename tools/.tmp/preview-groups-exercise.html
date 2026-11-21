@@ -1,0 +1,769 @@
+<!doctype html><meta charset="utf-8"><style>*{box-sizing:border-box}html,body{margin:0;padding:0}view{display:block}image{display:block}text{display:inline}input{display:block}body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}body{
+  /* ---------- 主题变量 ----------
+     下面两段由 tools/gen-theme-css.js 从 utils/theme.js 生成，改色值请改 theme.js，
+     不要手改这两段（会被下次生成覆盖）。 */
+  /* @theme-default:start */
+  /* 默认 = 柠檬黄（没设置过主题时的兜底，与 .theme-lemon 完全一致） */
+  --brand: #FFC300;
+  --brand-2: #FFD84D;
+  --brand-deep: #E0A100;
+  --brand-text: #8A6500;
+  --brand-ink: #3A2F00;
+  --brand-soft: #FFF6D0;
+  --brand-soft-2: #FBF5DC;
+  --brand-shadow: rgba(224,161,0,0.32);
+  --bg: #FAF8EF;
+  --card: #FFFFFF;
+  --line: #F0EDE0;
+  --text-1: #221F15;
+  --text-2: #55514A;
+  --text-3: #A69F8E;
+  --arrow: #C9C3B2;
+  --fill: #F4F2E8;
+  --fill-2: #F7F5EC;
+  --ink-85: rgba(58,47,0,0.85);
+  --ink-62: rgba(58,47,0,0.62);
+  --ink-55: rgba(58,47,0,0.55);
+  --ink-45: rgba(58,47,0,0.45);
+  --ink-35: rgba(58,47,0,0.35);
+  --ink-16: rgba(58,47,0,0.16);
+  /* @theme-default:end */
+
+  /* 圆角不随主题变 */
+  --radius: 20px;
+
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 28px;
+  line-height: 1.5;
+}
+
+/* ---------- 主题类 ----------
+   页面根节点带上 .theme-xxx，变量覆盖向下继承；
+   页面内部所有样式只引用变量，所以换主题不需要动任何布局。 */
+/* @theme-classes:start */
+.theme-lemon {   /* 柠檬黄 · 默认 */
+  --brand: #FFC300;
+  --brand-2: #FFD84D;
+  --brand-deep: #E0A100;
+  --brand-text: #8A6500;
+  --brand-ink: #3A2F00;
+  --brand-soft: #FFF6D0;
+  --brand-soft-2: #FBF5DC;
+  --brand-shadow: rgba(224,161,0,0.32);
+  --bg: #FAF8EF;
+  --card: #FFFFFF;
+  --line: #F0EDE0;
+  --text-1: #221F15;
+  --text-2: #55514A;
+  --text-3: #A69F8E;
+  --arrow: #C9C3B2;
+  --fill: #F4F2E8;
+  --fill-2: #F7F5EC;
+  --ink-85: rgba(58,47,0,0.85);
+  --ink-62: rgba(58,47,0,0.62);
+  --ink-55: rgba(58,47,0,0.55);
+  --ink-45: rgba(58,47,0,0.45);
+  --ink-35: rgba(58,47,0,0.35);
+  --ink-16: rgba(58,47,0,0.16);
+}
+
+.theme-sky {   /* 天蓝 · 清爽 */
+  --brand: #5CB3E6;
+  --brand-2: #8FD1F5;
+  --brand-deep: #3E93C7;
+  --brand-text: #176A96;
+  --brand-ink: #0A3B55;
+  --brand-soft: #E8F4FD;
+  --brand-soft-2: #DDF0FC;
+  --brand-shadow: rgba(62,147,199,0.32);
+  --bg: #F4F9FC;
+  --card: #FFFFFF;
+  --line: #E3EFF6;
+  --text-1: #16242B;
+  --text-2: #4C5A63;
+  --text-3: #97A6B0;
+  --arrow: #BFD0DA;
+  --fill: #ECF2F6;
+  --fill-2: #F3F8FB;
+  --ink-85: rgba(10,59,85,0.85);
+  --ink-62: rgba(10,59,85,0.62);
+  --ink-55: rgba(10,59,85,0.55);
+  --ink-45: rgba(10,59,85,0.45);
+  --ink-35: rgba(10,59,85,0.35);
+  --ink-16: rgba(10,59,85,0.16);
+}
+
+.theme-military {   /* 军绿 · 沉稳 */
+  --brand: #74874F;
+  --brand-2: #94A574;
+  --brand-deep: #5E7040;
+  --brand-text: #4C5C33;
+  --brand-ink: #1E2614;
+  --brand-soft: #EFF3E2;
+  --brand-soft-2: #E7EDD6;
+  --brand-shadow: rgba(94,112,64,0.32);
+  --bg: #F6F8F0;
+  --card: #FFFFFF;
+  --line: #E5EAD9;
+  --text-1: #1E2217;
+  --text-2: #4E5344;
+  --text-3: #9AA189;
+  --arrow: #C2C9B2;
+  --fill: #EFEFE7;
+  --fill-2: #F4F5EC;
+  --ink-85: rgba(30,38,20,0.85);
+  --ink-62: rgba(30,38,20,0.62);
+  --ink-55: rgba(30,38,20,0.55);
+  --ink-45: rgba(30,38,20,0.45);
+  --ink-35: rgba(30,38,20,0.35);
+  --ink-16: rgba(30,38,20,0.16);
+}
+
+.theme-burgundy {   /* 酒红 · 浓郁 */
+  --brand: #8E2F3C;
+  --brand-2: #A95260;
+  --brand-deep: #74232C;
+  --brand-text: #8E2F3C;
+  --brand-ink: #FFF6F5;
+  --brand-soft: #F9EAEC;
+  --brand-soft-2: #F3DDE0;
+  --brand-shadow: rgba(116,35,44,0.32);
+  --bg: #FAF6F6;
+  --card: #FFFFFF;
+  --line: #F1E2E4;
+  --text-1: #241A1B;
+  --text-2: #5A4A4C;
+  --text-3: #A99094;
+  --arrow: #DCC4C7;
+  --fill: #F3EBEC;
+  --fill-2: #F8F1F2;
+  --ink-85: rgba(255,246,245,0.85);
+  --ink-62: rgba(255,246,245,0.62);
+  --ink-55: rgba(255,246,245,0.55);
+  --ink-45: rgba(255,246,245,0.45);
+  --ink-35: rgba(255,246,245,0.35);
+  --ink-16: rgba(255,246,245,0.16);
+}
+
+.theme-limestone {   /* 石灰灰 · 素净 */
+  --brand: #A8A294;
+  --brand-2: #C8C2B4;
+  --brand-deep: #8B8578;
+  --brand-text: #6C675D;
+  --brand-ink: #2A2823;
+  --brand-soft: #F2F0EA;
+  --brand-soft-2: #EAE7DF;
+  --brand-shadow: rgba(139,133,120,0.32);
+  --bg: #F7F6F2;
+  --card: #FFFFFF;
+  --line: #E7E4DC;
+  --text-1: #22211D;
+  --text-2: #55534C;
+  --text-3: #A09C91;
+  --arrow: #C8C3B6;
+  --fill: #F0EFE9;
+  --fill-2: #F5F4EF;
+  --ink-85: rgba(42,40,35,0.85);
+  --ink-62: rgba(42,40,35,0.62);
+  --ink-55: rgba(42,40,35,0.55);
+  --ink-45: rgba(42,40,35,0.45);
+  --ink-35: rgba(42,40,35,0.35);
+  --ink-16: rgba(42,40,35,0.16);
+}
+
+.theme-purple {   /* 紫 · 个性 */
+  --brand: #7B5AD8;
+  --brand-2: #9F86EE;
+  --brand-deep: #6547BC;
+  --brand-text: #5C3FB0;
+  --brand-ink: #FDFBFF;
+  --brand-soft: #F1ECFD;
+  --brand-soft-2: #EAE2FB;
+  --brand-shadow: rgba(101,71,188,0.32);
+  --bg: #F8F6FE;
+  --card: #FFFFFF;
+  --line: #EBE5F8;
+  --text-1: #201B2C;
+  --text-2: #544D66;
+  --text-3: #9E96B4;
+  --arrow: #CFC7E4;
+  --fill: #F1EEF7;
+  --fill-2: #F6F3FC;
+  --ink-85: rgba(253,251,255,0.85);
+  --ink-62: rgba(253,251,255,0.62);
+  --ink-55: rgba(253,251,255,0.55);
+  --ink-45: rgba(253,251,255,0.45);
+  --ink-35: rgba(253,251,255,0.35);
+  --ink-16: rgba(253,251,255,0.16);
+}
+/* @theme-classes:end */
+
+.page {
+  padding: 24px 24px 60px;
+  /* 铺满整屏，换主题时页面底色跟着变；内容更长时可正常滚动 */
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: var(--bg);
+}
+
+/* ---------- 通用卡片 ---------- */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(31, 27, 12, 0.04);
+}
+
+.card-title {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 20px;
+}
+
+.card-title .sub {
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-3);
+  margin-left: 12px;
+}
+
+/* ---------- 空状态 ---------- */
+.empty {
+  padding: 120px 40px;
+  text-align: center;
+}
+.empty-icon {
+  font-size: 80px;
+  display: block;
+  margin-bottom: 24px;
+  opacity: 0.6;
+}
+.empty-text {
+  font-size: 28px;
+  color: var(--text-3);
+}
+
+/* ---------- 按钮 ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 72px;
+  padding: 0 32px;
+  border-radius: 36px;
+  font-size: 26px;
+  border: none;
+}
+.btn::after {
+  border: none;
+}
+.btn-primary {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+.btn-ghost {
+  background: var(--fill);
+  color: var(--text-2);
+}
+
+/* ---------- 数值强调 ---------- */
+.num {
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+}
+.num-unit {
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-3);
+  margin-left: 6px;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---------- 分享入口条（打卡页 / 统计页共用） ---------- */
+.share-entry {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--brand-2), var(--brand));
+  border-radius: 20px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 22px var(--brand-shadow);
+}
+.share-entry-ic {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+.share-entry-bd {
+  flex: 1;
+}
+.share-entry-t {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--brand-ink);
+}
+.share-entry-d {
+  font-size: 22px;
+  color: var(--ink-62);
+  margin-top: 4px;
+}
+.share-entry-ar {
+  font-size: 40px;
+  color: var(--ink-55);
+  line-height: 1;
+}
+
+/* ---------- 通用入口条（白底，与彩色分享条区分） ---------- */
+.entry {
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border-radius: 20px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(31, 27, 12, 0.04);
+}
+.entry-ic {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: var(--brand-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+.entry-bd {
+  flex: 1;
+}
+.entry-t {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-1);
+}
+.entry-d {
+  font-size: 22px;
+  color: var(--text-3);
+  margin-top: 4px;
+}
+.entry-ar {
+  font-size: 40px;
+  color: var(--text-3);
+  line-height: 1;
+}
+/* ---------- 项目列表 ---------- */
+.ex-row {
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  border-top: 2px solid var(--line);
+}
+.ex-row:first-of-type {
+  border-top: none;
+}
+.ex-row.off {
+  opacity: 0.5;
+}
+.ex-ic {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+.ex-bd {
+  flex: 1;
+}
+.ex-nm {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-1);
+}
+.tag {
+  display: inline-block;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--brand-text);
+  background: var(--brand-soft);
+  border-radius: 6px;
+  padding: 2px 10px;
+  margin-left: 12px;
+  vertical-align: middle;
+}
+.tag.gray {
+  color: var(--text-3);
+  background: var(--fill);
+}
+.ex-go {
+  font-size: 22px;
+  color: var(--text-3);
+  margin-top: 4px;
+}
+.ex-ar {
+  font-size: 40px;
+  color: var(--text-3);
+  line-height: 1;
+}
+
+.fav-btn.on .fav-star {
+  color: var(--brand-deep);
+}
+
+.tip {
+  font-size: 24px;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.btn-block {
+  display: flex;
+  width: 100%;
+}
+.foot-tip {
+  font-size: 22px;
+  color: var(--text-3);
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* ---------- 弹层 ---------- */
+.mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(31, 27, 12, 0.45);
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.mask.show {
+  opacity: 1;
+}
+.sheet {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 28px 28px 0 0;
+  padding: 32px 32px 48px;
+  box-sizing: border-box;
+  max-height: 84vh;
+  overflow-y: auto;
+}
+.sheet-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 24px;
+}
+.inp {
+  width: 100%;
+  box-sizing: border-box;
+  height: 84px;
+  background: var(--fill-2);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 0 24px;
+  font-size: 28px;
+  color: var(--text-1);
+}
+.sheet-label {
+  font-size: 24px;
+  color: var(--text-3);
+  margin: 28px 0 16px;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+.g-item {
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
+  background: var(--fill-2);
+  border: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  margin: 0 14px 14px 0;
+}
+.g-item.on {
+  border-color: var(--brand-text);
+  background: var(--brand-soft);
+}
+
+/* 专属图标：列表头像内 & 选择器格内 */
+.ex-img {
+  width: 56px;
+  height: 56px;
+}
+.g-img {
+  width: 60px;
+  height: 60px;
+}
+
+/* 推荐项目的一键添加按钮 */
+.ex-add {
+  flex-shrink: 0;
+  padding: 10px 24px;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand-text);
+  font-size: 24px;
+}
+.colors {
+  margin-bottom: 8px;
+}
+.c-item {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  margin: 0 14px 14px 0;
+  border: 4px solid transparent;
+  box-sizing: border-box;
+}
+.c-item.on {
+  border-color: rgba(31, 27, 12, 0.25);
+}
+
+.sheet-row {
+  display: flex;
+  margin-top: 20px;
+  border-top: 2px solid var(--line);
+  padding-top: 20px;
+}
+.sheet-act {
+  flex: 1;
+  text-align: center;
+  font-size: 26px;
+  color: var(--text-2);
+  padding: 16px 0;
+}
+.sheet-act.danger {
+  color: #E5484D;
+}
+
+.sheet-btns {
+  display: flex;
+  margin-top: 24px;
+}
+.sbtn {
+  flex: 1;
+  height: 84px;
+  line-height: 84px;
+  text-align: center;
+  border-radius: 42px;
+  font-size: 28px;
+  background: var(--fill);
+  color: var(--text-2);
+}
+.sbtn + .sbtn {
+  margin-left: 20px;
+}
+.sbtn.ok {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+.sheet-note {
+  font-size: 22px;
+  color: var(--text-3);
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* 每日目标输入行 */
+.goal-row {
+  display: flex;
+  align-items: center;
+}
+.goal-inp {
+  flex: 1;
+  min-width: 0;
+}
+.goal-unit {
+  flex: none;
+  margin-left: 12px;
+  font-size: 26px;
+  color: var(--text-3);
+}
+
+/* 自重比例调节 */
+.label-note {
+  margin-left: 12px;
+  font-size: 21px;
+  color: #B7B1A1;
+}
+.ratio-card {
+  padding: 20px 22px 16px;
+  background: var(--fill-2);
+  border-radius: 16px;
+}
+.ratio-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.ratio-value {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--brand-text);
+  font-variant-numeric: tabular-nums;
+}
+.ratio-each {
+  font-size: 22px;
+  color: var(--text-3);
+}
+.ratio-each.warn {
+  color: #C2781B;
+}
+.ratio-slider {
+  margin: 12px 0 0;
+}
+.ratio-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 21px;
+  color: #A69F8E;
+}
+.ratio-reset {
+  color: var(--brand-text);
+  padding: 6px 0 6px 16px;
+}
+
+/* ---------- 项目分组 ---------- */
+.grp-row {
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  border-top: 2px solid var(--line);
+}
+.grp-row:first-of-type {
+  border-top: none;
+}
+.grp-idx {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  color: var(--brand-text);
+  font-size: 22px;
+  font-weight: 600;
+  margin-right: 18px;
+}
+.grp-bd {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+}
+.grp-nm {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-1);
+  max-width: 260px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.grp-cnt {
+  margin-left: 14px;
+  font-size: 22px;
+  color: var(--text-3);
+}
+.grp-ar {
+  flex: none;
+  font-size: 40px;
+  color: var(--text-3);
+  line-height: 1;
+}
+.grp-add {
+  margin-top: 16px;
+  padding: 16px 0;
+  text-align: center;
+  border-radius: 14px;
+  background: var(--brand-soft);
+  color: var(--brand-text);
+  font-size: 26px;
+  font-weight: 600;
+}
+.grp-max {
+  margin-top: 16px;
+}
+
+/* 项目列表上方的分组筛选 chips，以及编辑弹层里的分组选择器 */
+.grp-filter,
+.grp-pick {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 4px 0 8px;
+}
+.grp-chip {
+  flex: none;
+  padding: 10px 24px;
+  margin: 0 12px 12px 0;
+  border-radius: 999px;
+  background: var(--fill-2);
+  color: var(--text-2);
+  font-size: 24px;
+  border: 2px solid transparent;
+}
+.grp-chip.on {
+  background: var(--brand-soft);
+  border-color: var(--brand);
+  color: var(--brand-text);
+  font-weight: 600;
+}
+.grp-shown {
+  margin: 0 0 8px;
+  font-size: 21px;
+  color: var(--text-3);
+}
+
+/* 分组弹窗：复用项目编辑弹层的遮罩，改成居中卡片 */
+.mask.center {
+  align-items: center;
+}
+.group-modal {
+  width: 580px;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border-radius: 28px;
+  padding: 36px 32px 28px;
+  box-shadow: 0 20px 60px rgba(31, 27, 12, 0.25);
+}
+.group-modal .sheet-title {
+  margin-bottom: 24px;
+}
+.grp-row[data-new],.grp-filter[data-new]{outline:2px dashed #E5484D;outline-offset:2px;border-radius:8px}</style><body class="theme-lemon"><view class="page"><view class="card" data-new="1"><view class="card-title">项目分组<text class="sub">4 / 8</text></view><view class="tip">在「编辑项目」里给每个项目选所属分组；打卡首页会按这里显示为 tab，点分组可改名、调顺序或删除。</view><view class="grp-row"><view class="grp-idx">1</view><view class="grp-bd"><text class="grp-nm">默认</text><text class="grp-cnt">3 个项目</text></view><view class="grp-ar">›</view></view><view class="grp-row"><view class="grp-idx">2</view><view class="grp-bd"><text class="grp-nm">上半身组</text><text class="grp-cnt">2 个项目</text></view><view class="grp-ar">›</view></view><view class="grp-row"><view class="grp-idx">3</view><view class="grp-bd"><text class="grp-nm">下半身组</text><text class="grp-cnt">1 个项目</text></view><view class="grp-ar">›</view></view><view class="grp-row"><view class="grp-idx">4</view><view class="grp-bd"><text class="grp-nm">核心组</text><text class="grp-cnt">1 个项目</text></view><view class="grp-ar">›</view></view><view class="grp-add">+ 新建分组</view></view><view class="card"><view class="card-title">我的项目<text class="sub">7 / 24</text></view><view class="tip">打卡页按分组显示该组全部未隐藏项目。点项目可编辑目标、所属分组与自重比例。</view><view class="grp-filter" data-new="1"><view class="grp-chip"><text>全部</text></view><view class="grp-chip"><text>默认</text></view><view class="grp-chip on"><text>上半身组</text></view><view class="grp-chip"><text>下半身组</text></view><view class="grp-chip"><text>核心组</text></view></view><view class="grp-shown">当前分组共 2 个项目</view><view class="ex-row"><view class="ex-ic" style="background:#E8F8F1"><image class="ex-img" src="../../images/ex-pushup.png"></image></view><view class="ex-bd"><view class="ex-nm">俯卧撑<text class="tag">内置</text><text class="tag gray">上半身组</text></view><view class="ex-go">每日目标 50 次 · 自重 50% · 负重纪录 40kg</view></view><view class="ex-ar">›</view></view><view class="ex-row"><view class="ex-ic" style="background:#F1EBFE"><image class="ex-img" src="../../images/ex-cablerow.png"></image></view><view class="ex-bd"><view class="ex-nm">哑铃划船<text class="tag gray">上半身组</text></view><view class="ex-go">每日目标 30 次 · 自重 0% · 负重纪录 55kg</view></view><view class="ex-ar">›</view></view></view><view class="btn btn-primary btn-block">+ 新增项目</view><view class="foot-tip">内置项目不可删除（可改名或隐藏），连同自定义项目最多共 24 个</view></view></body>

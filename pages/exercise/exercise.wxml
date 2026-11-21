@@ -1,0 +1,163 @@
+<view class="page {{themeClass}}">
+
+  <!-- 分组管理：打卡首页的每个 tab 对应这里的一条，顺序即 tab 顺序 -->
+  <view class="card">
+    <view class="card-title">项目分组<text class="sub">{{groups.length}} / {{maxGroups}}</text></view>
+    <view class="tip">在「编辑项目」里给每个项目选所属分组；打卡首页会按这里显示为 tab，点分组可改名、调顺序或删除。</view>
+
+    <view class="grp-row" wx:for="{{groups}}" wx:key="id" data-id="{{item.id}}" bindtap="openGroupEdit">
+      <view class="grp-idx">{{index + 1}}</view>
+      <view class="grp-bd">
+        <text class="grp-nm">{{item.name}}</text>
+        <text class="grp-cnt">{{item.count}} 个项目</text>
+      </view>
+      <view class="grp-ar">›</view>
+    </view>
+
+    <view class="grp-add" bindtap="openGroupAdd" wx:if="{{groups.length < maxGroups}}">+ 新建分组</view>
+    <view class="tip grp-max" wx:else>最多 {{maxGroups}} 个分组</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title">我的项目<text class="sub">{{count}} / {{max}}</text></view>
+    <view class="tip">打卡页按分组显示该组全部未隐藏项目。点项目可编辑目标、所属分组与自重比例。</view>
+
+    <view class="grp-filter" wx:if="{{groups.length >= 2}}">
+      <view class="grp-chip {{activeGroup === 'all' ? 'on' : ''}}" data-id="all" bindtap="onFilterGroup">全部</view>
+      <view class="grp-chip {{item.active ? 'on' : ''}}" wx:for="{{groups}}" wx:key="id" data-id="{{item.id}}" bindtap="onFilterGroup">{{item.name}}</view>
+    </view>
+    <view class="grp-shown" wx:if="{{groups.length >= 2 && activeGroup !== 'all'}}">当前分组共 {{shownCount}} 个项目</view>
+
+    <view class="ex-row {{item.hidden ? 'off' : ''}}" wx:for="{{list}}" wx:key="key" data-key="{{item.key}}" bindtap="openEdit">
+      <view class="ex-ic" style="background: {{item.soft}};">
+        <image wx:if="{{item.iconPath}}" class="ex-img" src="{{item.iconPath}}" mode="aspectFit" />
+        <text wx:else>{{item.emoji}}</text>
+      </view>
+      <view class="ex-bd">
+        <view class="ex-nm">
+          {{item.name}}
+          <text class="tag" wx:if="{{item.builtin}}">内置</text>
+          <text class="tag gray" wx:if="{{item.hidden}}">已隐藏</text>
+          <text class="tag gray" wx:if="{{groups.length >= 2 && item.groupName}}">{{item.groupName}}</text>
+        </view>
+        <view class="ex-go">每日目标 {{item.goal}} 次 · 自重 {{item.bwPercent}}%<text wx:if="{{item.best > 0}}"> · 负重纪录 {{item.bestText}}kg</text></view>
+      </view>
+      <view class="ex-ar">›</view>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{presets.length > 0}}">
+    <view class="card-title">推荐项目</view>
+    <view class="tip">点一下就加进「我的项目」，图标、配色、每日目标都配好了</view>
+
+    <view class="ex-row" wx:for="{{presets}}" wx:key="name">
+      <view class="ex-ic"><image class="ex-img" src="{{iconFiles[item.icon]}}" mode="aspectFit" /></view>
+      <view class="ex-bd">
+        <view class="ex-nm">{{item.name}}</view>
+        <view class="ex-go">{{item.desc}} · 建议每日 {{item.goal}} 次</view>
+      </view>
+      <view class="ex-add" data-name="{{item.name}}" bindtap="addPreset">+ 添加</view>
+    </view>
+  </view>
+
+  <view class="btn btn-primary btn-block" bindtap="openAdd">+ 新增项目</view>
+  <view class="foot-tip">内置项目不可删除（可改名或隐藏），连同自定义项目最多共 {{max}} 个</view>
+
+</view>
+
+<!-- 新增 / 编辑弹层 -->
+<view class="mask {{sheet ? 'show' : ''}}" bindtap="closeSheet" wx:if="{{sheet}}">
+  <view class="sheet" catchtap="noop">
+
+    <view class="sheet-title">{{editing ? '编辑项目' : '新增项目'}}</view>
+
+    <input class="inp" value="{{form.name}}" placeholder="项目名称（最多 8 个字）" maxlength="8" focus="{{sheet}}" bindinput="onNameInput" />
+
+    <view class="sheet-label">每日目标</view>
+    <view class="goal-row">
+      <input class="inp goal-inp" type="number" value="{{form.goal}}" placeholder="{{goalHint}}" bindinput="onGoalInput" />
+      <text class="goal-unit">次</text>
+    </view>
+
+    <view class="sheet-label">所属分组<text class="label-note">打卡首页的 tab</text></view>
+    <view class="grp-pick">
+      <view class="grp-chip {{form.groupId === item.id ? 'on' : ''}}" wx:for="{{groups}}" wx:key="id" data-id="{{item.id}}" bindtap="pickGroup">{{item.name}}</view>
+    </view>
+
+    <view class="sheet-label">自重比例<text class="label-note">用于估算总重量</text></view>
+    <view class="ratio-card">
+      <view class="ratio-head">
+        <text class="ratio-value">{{form.bwPercent}}%</text>
+        <text class="ratio-each" wx:if="{{bodyWeight > 0}}">体重 {{bodyWeight}}kg · 每次约 {{form.bwEach}}kg</text>
+        <text class="ratio-each warn" wx:else>未设置体重，暂不折算</text>
+      </view>
+      <slider
+        class="ratio-slider"
+        min="0"
+        max="100"
+        step="5"
+        value="{{form.bwPercent}}"
+        activeColor="#FFC300"
+        backgroundColor="#F0EDE0"
+        blockColor="#E0A100"
+        block-size="22"
+        bindchanging="onRatioChange"
+        bindchange="onRatioChange"
+      />
+      <view class="ratio-foot">
+        <text>0% = 只计算额外负重</text>
+        <text class="ratio-reset" wx:if="{{form.bwCustom}}" bindtap="resetRatio">恢复推荐 {{form.bwDefault}}%</text>
+        <text wx:else>推荐 {{form.bwDefault}}%</text>
+      </view>
+    </view>
+
+    <view class="sheet-label">专属图标</view>
+    <view class="grid">
+      <view class="g-item {{form.iconKey === item ? 'on' : ''}}" wx:for="{{iconKeys}}" wx:for-item="item" wx:key="*this" data-v="{{item}}" bindtap="pickIcon">
+        <image class="g-img" src="{{iconFiles[item]}}" mode="aspectFit" />
+      </view>
+    </view>
+
+    <view class="sheet-label">图标</view>
+    <view class="grid">
+      <view class="g-item {{form.iconKey === '' && form.emoji === item ? 'on' : ''}}" wx:for="{{emojis}}" wx:for-item="item" wx:key="*this" data-v="{{item}}" bindtap="pickEmoji">{{item}}</view>
+    </view>
+
+    <view class="sheet-label">颜色</view>
+    <view class="grid colors">
+      <view class="c-item {{form.color === item.color ? 'on' : ''}}" wx:for="{{palette}}" wx:for-item="item" wx:key="color" data-v="{{item.color}}" bindtap="pickColor" style="background: {{item.color}};"></view>
+    </view>
+
+    <view class="sheet-row" wx:if="{{editing}}">
+      <view class="sheet-act" bindtap="toggleHidden">{{form.hidden ? '取消隐藏' : '隐藏该项目'}}</view>
+      <view class="sheet-act danger" wx:if="{{!form.builtin}}" bindtap="remove">删除项目</view>
+    </view>
+
+    <view class="sheet-btns">
+      <view class="sbtn" bindtap="closeSheet">取消</view>
+      <view class="sbtn ok" bindtap="save">保存</view>
+    </view>
+
+    <view class="sheet-note" wx:if="{{editing && form.builtin}}">内置项目不可删除，改名或隐藏即可</view>
+  </view>
+</view>
+
+<!-- 新建 / 编辑分组弹窗 -->
+<view class="mask center {{groupSheet ? 'show' : ''}}" bindtap="closeGroupSheet" wx:if="{{groupSheet}}">
+  <view class="group-modal" catchtap="noop">
+    <view class="sheet-title">{{groupEditing ? '编辑分组' : '新建分组'}}</view>
+    <input class="inp" value="{{groupInput}}" placeholder="例如：上半身组" maxlength="{{maxGroupName}}" focus="{{groupSheet}}" bindinput="onGroupInput" />
+
+    <view class="sheet-row" wx:if="{{groupEditing}}">
+      <view class="sheet-act" data-dir="-1" bindtap="moveGroup">↑ 上移</view>
+      <view class="sheet-act" data-dir="1" bindtap="moveGroup">↓ 下移</view>
+      <view class="sheet-act danger" bindtap="removeGroup">删除分组</view>
+    </view>
+
+    <view class="sheet-note">删除分组不会删项目，组内项目会移回第一个分组</view>
+    <view class="sheet-btns">
+      <view class="sbtn" bindtap="closeGroupSheet">取消</view>
+      <view class="sbtn ok" bindtap="saveGroup">保存</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,9 @@
+{
+  "name": "getWxacode",
+  "version": "1.0.0",
+  "description": "生成带参数的小程序码（云调用，免 access_token）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

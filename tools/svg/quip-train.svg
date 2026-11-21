@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="192" height="192"><style>
+  .f { fill: #FFF4DD; stroke: #26231F; stroke-width: 3.4; stroke-linejoin: round; stroke-linecap: round; }
+  .l { fill: none; stroke: #26231F; stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round; }
+  .i { fill: #26231F; }
+  .r { fill: none; stroke: #F0443E; stroke-width: 2.6; stroke-linecap: round; }
+  .d { fill: #4D6BFE; }
+</style>
+    <path class="f" d="M14 30h22v30H14z"/>
+    <path class="f" d="M36 40h34c4 0 7 3 7 7v13H36z"/>
+    <path class="f" d="M52 26h12v14H52z"/>
+    <path class="l" d="M20 38h10v10H20z"/>
+    <path class="f" d="M62 22h10v18H62z"/>
+    <circle class="f" cx="26" cy="64" r="8"/>
+    <circle class="i" cx="26" cy="64" r="3"/>
+    <circle class="f" cx="48" cy="64" r="8"/>
+    <circle class="i" cx="48" cy="64" r="3"/>
+    <circle class="f" cx="68" cy="64" r="8"/>
+    <circle class="i" cx="68" cy="64" r="3"/>
+    <path class="l" d="M10 74h76"/>
+    <path class="r" d="M67 14c-3-4-1-8 2-10"/>
+  </svg>

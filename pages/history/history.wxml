@@ -1,0 +1,57 @@
+<view class="page {{themeClass}}">
+
+  <view class="sum-bar" wx:if="{{!empty}}">
+    <view class="sum-cell">
+      <view class="sum-num">{{totalDays}}</view>
+      <view class="sum-label">打卡天数</view>
+    </view>
+    <view class="sum-cell">
+      <view class="sum-num">{{totalReps}}</view>
+      <view class="sum-label">累计次数</view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{empty}}">
+    <text class="empty-icon">📋</text>
+    <text class="empty-text">还没有任何记录\n去打卡页记下第一组吧</text>
+    <view class="btn btn-primary empty-btn" bindtap="goToday">去打卡</view>
+  </view>
+
+  <view class="day-card" wx:for="{{days}}" wx:key="date">
+    <view class="day-head" data-date="{{item.date}}" bindtap="toggle">
+      <view class="day-date">
+        <text class="day-main">{{item.label}}</text>
+        <text class="day-week">{{item.week}}</text>
+      </view>
+      <view class="day-right">
+        <text class="day-total">{{item.total}}<text class="day-unit">次</text></text>
+        <text class="day-arrow {{expandDate === item.date ? 'open' : ''}}">›</text>
+      </view>
+    </view>
+
+    <view class="chips">
+      <view class="chip" wx:for="{{item.items}}" wx:for-item="it" wx:key="key" style="background: {{it.soft}}; color: {{it.color}};">
+        <block wx:if="{{it.iconPath}}">
+          <image class="chip-img" src="{{it.iconPath}}" mode="aspectFit" />
+          <text>{{it.name}}</text>
+        </block>
+        <text wx:else>{{it.icon}} {{it.name}}</text>
+        <text class="chip-num">{{it.reps}}</text>
+      </view>
+    </view>
+
+    <view class="detail" wx:if="{{expandDate === item.date}}">
+      <view class="set-row" wx:for="{{item.setList}}" wx:for-item="s" wx:key="id">
+        <image wx:if="{{s.iconPath}}" class="s-icon-img" src="{{s.iconPath}}" mode="aspectFit" />
+        <text wx:else class="s-icon">{{s.icon}}</text>
+        <text class="s-name" style="color: {{s.color}};">{{s.name}}</text>
+        <text class="s-idx">第{{s.index}}组</text>
+        <text class="s-reps">{{s.reps}} 次</text>
+        <text class="s-weight" wx:if="{{s.weight > 0}}">{{s.weight}}kg</text>
+        <text class="s-time">{{s.time}}</text>
+      </view>
+      <view class="day-del" data-date="{{item.date}}" catchtap="removeDay">删除这一天</view>
+    </view>
+  </view>
+
+</view>

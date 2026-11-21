@@ -1,0 +1,9 @@
+{
+  "name": "userPing",
+  "version": "1.0.0",
+  "description": "匿名活跃上报：只存 openid 的不可逆哈希 + 活跃日期，不收集任何锻炼数据",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

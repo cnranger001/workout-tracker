@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "我的锻炼成绩",
+  "navigationBarBackgroundColor": "#FFC300",
+  "navigationBarTextStyle": "black",
+  "backgroundColor": "#FAF8EF",
+  "enablePullDownRefresh": false
+}

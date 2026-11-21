@@ -1,0 +1,1133 @@
+<!doctype html><meta charset="utf-8"><style>*{box-sizing:border-box}html,body{margin:0;padding:0}view{display:block}image{display:block}text{display:inline}input{display:block}body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}body{
+  /* ---------- 主题变量 ----------
+     下面两段由 tools/gen-theme-css.js 从 utils/theme.js 生成，改色值请改 theme.js，
+     不要手改这两段（会被下次生成覆盖）。 */
+  /* @theme-default:start */
+  /* 默认 = 柠檬黄（没设置过主题时的兜底，与 .theme-lemon 完全一致） */
+  --brand: #FFC300;
+  --brand-2: #FFD84D;
+  --brand-deep: #E0A100;
+  --brand-text: #8A6500;
+  --brand-ink: #3A2F00;
+  --brand-soft: #FFF6D0;
+  --brand-soft-2: #FBF5DC;
+  --brand-shadow: rgba(224,161,0,0.32);
+  --bg: #FAF8EF;
+  --card: #FFFFFF;
+  --line: #F0EDE0;
+  --text-1: #221F15;
+  --text-2: #55514A;
+  --text-3: #A69F8E;
+  --arrow: #C9C3B2;
+  --fill: #F4F2E8;
+  --fill-2: #F7F5EC;
+  --ink-85: rgba(58,47,0,0.85);
+  --ink-62: rgba(58,47,0,0.62);
+  --ink-55: rgba(58,47,0,0.55);
+  --ink-45: rgba(58,47,0,0.45);
+  --ink-35: rgba(58,47,0,0.35);
+  --ink-16: rgba(58,47,0,0.16);
+  /* @theme-default:end */
+
+  /* 圆角不随主题变 */
+  --radius: 20px;
+
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 28px;
+  line-height: 1.5;
+}
+
+/* ---------- 主题类 ----------
+   页面根节点带上 .theme-xxx，变量覆盖向下继承；
+   页面内部所有样式只引用变量，所以换主题不需要动任何布局。 */
+/* @theme-classes:start */
+.theme-lemon {   /* 柠檬黄 · 默认 */
+  --brand: #FFC300;
+  --brand-2: #FFD84D;
+  --brand-deep: #E0A100;
+  --brand-text: #8A6500;
+  --brand-ink: #3A2F00;
+  --brand-soft: #FFF6D0;
+  --brand-soft-2: #FBF5DC;
+  --brand-shadow: rgba(224,161,0,0.32);
+  --bg: #FAF8EF;
+  --card: #FFFFFF;
+  --line: #F0EDE0;
+  --text-1: #221F15;
+  --text-2: #55514A;
+  --text-3: #A69F8E;
+  --arrow: #C9C3B2;
+  --fill: #F4F2E8;
+  --fill-2: #F7F5EC;
+  --ink-85: rgba(58,47,0,0.85);
+  --ink-62: rgba(58,47,0,0.62);
+  --ink-55: rgba(58,47,0,0.55);
+  --ink-45: rgba(58,47,0,0.45);
+  --ink-35: rgba(58,47,0,0.35);
+  --ink-16: rgba(58,47,0,0.16);
+}
+
+.theme-sky {   /* 天蓝 · 清爽 */
+  --brand: #5CB3E6;
+  --brand-2: #8FD1F5;
+  --brand-deep: #3E93C7;
+  --brand-text: #176A96;
+  --brand-ink: #0A3B55;
+  --brand-soft: #E8F4FD;
+  --brand-soft-2: #DDF0FC;
+  --brand-shadow: rgba(62,147,199,0.32);
+  --bg: #F4F9FC;
+  --card: #FFFFFF;
+  --line: #E3EFF6;
+  --text-1: #16242B;
+  --text-2: #4C5A63;
+  --text-3: #97A6B0;
+  --arrow: #BFD0DA;
+  --fill: #ECF2F6;
+  --fill-2: #F3F8FB;
+  --ink-85: rgba(10,59,85,0.85);
+  --ink-62: rgba(10,59,85,0.62);
+  --ink-55: rgba(10,59,85,0.55);
+  --ink-45: rgba(10,59,85,0.45);
+  --ink-35: rgba(10,59,85,0.35);
+  --ink-16: rgba(10,59,85,0.16);
+}
+
+.theme-military {   /* 军绿 · 沉稳 */
+  --brand: #74874F;
+  --brand-2: #94A574;
+  --brand-deep: #5E7040;
+  --brand-text: #4C5C33;
+  --brand-ink: #1E2614;
+  --brand-soft: #EFF3E2;
+  --brand-soft-2: #E7EDD6;
+  --brand-shadow: rgba(94,112,64,0.32);
+  --bg: #F6F8F0;
+  --card: #FFFFFF;
+  --line: #E5EAD9;
+  --text-1: #1E2217;
+  --text-2: #4E5344;
+  --text-3: #9AA189;
+  --arrow: #C2C9B2;
+  --fill: #EFEFE7;
+  --fill-2: #F4F5EC;
+  --ink-85: rgba(30,38,20,0.85);
+  --ink-62: rgba(30,38,20,0.62);
+  --ink-55: rgba(30,38,20,0.55);
+  --ink-45: rgba(30,38,20,0.45);
+  --ink-35: rgba(30,38,20,0.35);
+  --ink-16: rgba(30,38,20,0.16);
+}
+
+.theme-burgundy {   /* 酒红 · 浓郁 */
+  --brand: #8E2F3C;
+  --brand-2: #A95260;
+  --brand-deep: #74232C;
+  --brand-text: #8E2F3C;
+  --brand-ink: #FFF6F5;
+  --brand-soft: #F9EAEC;
+  --brand-soft-2: #F3DDE0;
+  --brand-shadow: rgba(116,35,44,0.32);
+  --bg: #FAF6F6;
+  --card: #FFFFFF;
+  --line: #F1E2E4;
+  --text-1: #241A1B;
+  --text-2: #5A4A4C;
+  --text-3: #A99094;
+  --arrow: #DCC4C7;
+  --fill: #F3EBEC;
+  --fill-2: #F8F1F2;
+  --ink-85: rgba(255,246,245,0.85);
+  --ink-62: rgba(255,246,245,0.62);
+  --ink-55: rgba(255,246,245,0.55);
+  --ink-45: rgba(255,246,245,0.45);
+  --ink-35: rgba(255,246,245,0.35);
+  --ink-16: rgba(255,246,245,0.16);
+}
+
+.theme-limestone {   /* 石灰灰 · 素净 */
+  --brand: #A8A294;
+  --brand-2: #C8C2B4;
+  --brand-deep: #8B8578;
+  --brand-text: #6C675D;
+  --brand-ink: #2A2823;
+  --brand-soft: #F2F0EA;
+  --brand-soft-2: #EAE7DF;
+  --brand-shadow: rgba(139,133,120,0.32);
+  --bg: #F7F6F2;
+  --card: #FFFFFF;
+  --line: #E7E4DC;
+  --text-1: #22211D;
+  --text-2: #55534C;
+  --text-3: #A09C91;
+  --arrow: #C8C3B6;
+  --fill: #F0EFE9;
+  --fill-2: #F5F4EF;
+  --ink-85: rgba(42,40,35,0.85);
+  --ink-62: rgba(42,40,35,0.62);
+  --ink-55: rgba(42,40,35,0.55);
+  --ink-45: rgba(42,40,35,0.45);
+  --ink-35: rgba(42,40,35,0.35);
+  --ink-16: rgba(42,40,35,0.16);
+}
+
+.theme-purple {   /* 紫 · 个性 */
+  --brand: #7B5AD8;
+  --brand-2: #9F86EE;
+  --brand-deep: #6547BC;
+  --brand-text: #5C3FB0;
+  --brand-ink: #FDFBFF;
+  --brand-soft: #F1ECFD;
+  --brand-soft-2: #EAE2FB;
+  --brand-shadow: rgba(101,71,188,0.32);
+  --bg: #F8F6FE;
+  --card: #FFFFFF;
+  --line: #EBE5F8;
+  --text-1: #201B2C;
+  --text-2: #544D66;
+  --text-3: #9E96B4;
+  --arrow: #CFC7E4;
+  --fill: #F1EEF7;
+  --fill-2: #F6F3FC;
+  --ink-85: rgba(253,251,255,0.85);
+  --ink-62: rgba(253,251,255,0.62);
+  --ink-55: rgba(253,251,255,0.55);
+  --ink-45: rgba(253,251,255,0.45);
+  --ink-35: rgba(253,251,255,0.35);
+  --ink-16: rgba(253,251,255,0.16);
+}
+/* @theme-classes:end */
+
+.page {
+  padding: 24px 24px 60px;
+  /* 铺满整屏，换主题时页面底色跟着变；内容更长时可正常滚动 */
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: var(--bg);
+}
+
+/* ---------- 通用卡片 ---------- */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(31, 27, 12, 0.04);
+}
+
+.card-title {
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 20px;
+}
+
+.card-title .sub {
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-3);
+  margin-left: 12px;
+}
+
+/* ---------- 空状态 ---------- */
+.empty {
+  padding: 120px 40px;
+  text-align: center;
+}
+.empty-icon {
+  font-size: 80px;
+  display: block;
+  margin-bottom: 24px;
+  opacity: 0.6;
+}
+.empty-text {
+  font-size: 28px;
+  color: var(--text-3);
+}
+
+/* ---------- 按钮 ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 72px;
+  padding: 0 32px;
+  border-radius: 36px;
+  font-size: 26px;
+  border: none;
+}
+.btn::after {
+  border: none;
+}
+.btn-primary {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+.btn-ghost {
+  background: var(--fill);
+  color: var(--text-2);
+}
+
+/* ---------- 数值强调 ---------- */
+.num {
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+}
+.num-unit {
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-3);
+  margin-left: 6px;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---------- 分享入口条（打卡页 / 统计页共用） ---------- */
+.share-entry {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--brand-2), var(--brand));
+  border-radius: 20px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 22px var(--brand-shadow);
+}
+.share-entry-ic {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+.share-entry-bd {
+  flex: 1;
+}
+.share-entry-t {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--brand-ink);
+}
+.share-entry-d {
+  font-size: 22px;
+  color: var(--ink-62);
+  margin-top: 4px;
+}
+.share-entry-ar {
+  font-size: 40px;
+  color: var(--ink-55);
+  line-height: 1;
+}
+
+/* ---------- 通用入口条（白底，与彩色分享条区分） ---------- */
+.entry {
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border-radius: 20px;
+  padding: 24px 28px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(31, 27, 12, 0.04);
+}
+.entry-ic {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: var(--brand-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+.entry-bd {
+  flex: 1;
+}
+.entry-t {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-1);
+}
+.entry-d {
+  font-size: 22px;
+  color: var(--text-3);
+  margin-top: 4px;
+}
+.entry-ar {
+  font-size: 40px;
+  color: var(--text-3);
+  line-height: 1;
+}
+/* ---------- 日期栏 ---------- */
+.date-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 20px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(31, 27, 12, 0.04);
+}
+.date-arrow {
+  width: 64px;
+  height: 64px;
+  line-height: 60px;
+  text-align: center;
+  font-size: 44px;
+  color: #55514A;
+  background: var(--fill);
+  border-radius: 50%;
+}
+.date-arrow.disabled {
+  opacity: 0.3;
+}
+.date-main {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.date-text {
+  font-size: 30px;
+  font-weight: 600;
+}
+.date-tag {
+  margin-left: 12px;
+  font-size: 20px;
+  padding: 4px 14px;
+  border-radius: 20px;
+  background: var(--brand-soft);
+  color: var(--brand-text);
+}
+.date-tag.back {
+  background: var(--fill);
+  color: #A69F8E;
+}
+
+/* ---------- 项目分组 tab ---------- */
+.group-tabs {
+  width: 100%;
+  white-space: nowrap;
+  margin-bottom: 18px;
+}
+.group-tab {
+  display: inline-flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 28px;
+  margin-right: 14px;
+  border-radius: 32px;
+  background: var(--card);
+  color: var(--text-2);
+  font-size: 26px;
+  box-shadow: 0 2px 12px rgba(31, 27, 12, 0.04);
+}
+.group-tab.on {
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-weight: 600;
+}
+/* 分组内的项目数：选中态用半透明底，未选中用浅灰底 */
+.group-tab-n {
+  margin-left: 10px;
+  min-width: 30px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 6px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 20px;
+  background: var(--fill);
+  color: var(--text-3);
+}
+.group-tab.on .group-tab-n {
+  background: rgba(255, 255, 255, 0.32);
+  color: var(--brand-ink);
+}
+.group-note {
+  margin: -6px 0 20px;
+  padding-left: 8px;
+  font-size: 21px;
+  color: var(--text-3);
+}
+.empty-text {
+  line-height: 1.7;
+}
+
+/* ---------- 概览 ---------- */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--brand-2), var(--brand));
+  border-radius: 24px;
+  padding: 36px 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 22px var(--brand-shadow);
+}
+.hero-label {
+  font-size: 24px;
+  color: var(--ink-62);
+}
+.hero-num {
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--brand-ink);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+/* 换成吨带三位小数，字一多就收一档，别把右侧圆环挤出去 */
+.hero-num.ton {
+  font-size: 62px;
+}
+.hero-unit {
+  font-size: 24px;
+  font-weight: 400;
+  margin-left: 8px;
+  color: var(--ink-55);
+}
+.hero-weight {
+  display: flex;
+  align-items: baseline;
+  margin-top: 14px;
+}
+.hero-weight-label {
+  margin-right: 14px;
+  font-size: 22px;
+  color: var(--ink-55);
+}
+/* 次行：当日总次数，比总重量低一档，只作参考 */
+.hero-weight-num {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--brand-ink);
+  font-variant-numeric: tabular-nums;
+}
+.hero-weight-unit {
+  margin-left: 6px;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink-55);
+}
+.hero-sub {
+  font-size: 22px;
+  color: var(--ink-62);
+  margin-top: 8px;
+}
+.hero-ring {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 8px solid var(--ink-16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ring-num {
+  color: var(--brand-ink);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+/* 圆环里的「第 N」：第 是小一号的前缀，数字保持原来的字号 */
+.ring-pre {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink-55);
+  margin-right: 2px;
+  letter-spacing: 0;
+}
+/* 当天还没有记录：圆环里放一个破折号占位，别让圆看起来是空的 */
+.ring-none {
+  font-size: 30px;
+  color: var(--ink-16);
+  letter-spacing: 0;
+}
+/* 圆环下面的排名说明：历史第 N · 再做 X kg 进第 N-1 */
+.rank-tip {
+  margin-top: 10px;
+  font-size: 22px;
+  line-height: 1.4;
+  color: var(--ink-62);
+}
+
+/* ---------- 运动卡片：大图标占两行 + 名称/部位/负重，第三行 拨轮 ---------- */
+.ex-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 22px 24px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 20px rgba(31, 27, 12, 0.04);
+}
+
+/* 头部：左边图标（两行文字高），右边 名称·训练量 / 部位·负重 */
+.ex-head {
+  display: flex;
+  align-items: center;
+  min-height: 128px;
+}
+.ex-iconbox {
+  flex: none;
+  width: 128px;
+  height: 128px;
+  border-radius: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 18px;
+}
+.ex-icon {
+  font-size: 64px;
+  line-height: 1;
+}
+.ex-icon-img {
+  width: 104px;
+  height: 104px;
+}
+/* 右侧文字区：第一行 名称 + 训练量，第二行 部位，第三行 负重 */
+.ex-bd {
+  flex: 1;
+  min-width: 0;
+}
+.ex-line {
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+}
+/* 训练量与排名贴在名称右侧：两行小字右对齐，第一行和项目名同一基线 */
+.ex-line-stat {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: 58%;
+  min-width: 0;
+  margin-left: auto;
+  padding-left: 12px;
+}
+.ex-name {
+  flex: 0 1 auto;
+  min-width: 0;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #221F15;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* 训练部位：紧跟在名称正下方，和推荐项目卡的副标题同字号同灰度 */
+.ex-desc {
+  display: block;
+  margin-top: 2px;
+  max-width: 100%;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--text-3);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* 「最近」角标：说明这张卡为什么排在最前 */
+.ex-latest {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 0 8px;
+  height: 26px;
+  line-height: 26px;
+  border-radius: 13px;
+  background: var(--brand-soft);
+  color: var(--brand-text);
+  font-size: 18px;
+  font-weight: 500;
+  vertical-align: 2px;
+}
+/* 组数 · 总次数 + 训练量 + 展开箭头：跟在拨轮右侧，靠右对齐 */
+.ex-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: flex-end;
+  padding-left: 12px;
+}
+/* 组数 · 总次数：底部只留这一行小字和展开箭头 */
+.ex-meta-t {
+  flex: none;
+  margin-left: 0;
+  font-size: 22px;
+  font-weight: 400;
+  color: #A69F8E;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+/* 项目当天训练量：品牌色加粗，和项目名同一行 */
+.ex-load {
+  flex: none;
+  max-width: 100%;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--brand-text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+/* 历史排名与追赶差距：紧跟训练量下面，仍属于卡片顶部 */
+.ex-rank {
+  display: block;
+  max-width: 100%;
+  margin-top: 2px;
+  text-align: right;
+  font-size: 18px;
+  font-weight: 400;
+  color: #A69F8E;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* 纯 CSS 箭头：小方块只留右、下两条边，转 45° 朝下；展开后转 -135° 朝上 */
+.ex-meta-ic {
+  width: 14px;
+  height: 14px;
+  margin: -7px 2px 0 8px;
+  border-right: 3px solid var(--arrow);
+  border-bottom: 3px solid var(--arrow);
+  transform: rotate(45deg);
+  transition: transform 0.18s ease, margin 0.18s ease;
+}
+.ex-meta-ic.open {
+  margin-top: 7px;
+  transform: rotate(-135deg);
+}
+
+/* ---------- 第三行：次数水平拨轮（窄版）+ 组数信息 + 对号记录 ---------- */
+.log-row {
+  display: flex;
+  align-items: center;
+  margin-top: 14px;
+}
+.wheel {
+  position: relative;
+  flex: none;
+  width: 300px;
+  height: 62px;
+  overflow: hidden;
+}
+/* 选中窗：固定在中线上的一枚浅色胶囊，数字从它上面滚过 */
+.wheel-window {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 72px;
+  height: 52px;
+  margin: -26px 0 0 -36px;
+  border-radius: 18px;
+  background: var(--brand-soft-2);
+}
+/* 轨道以容器中线为原点，靠 translateX 滚动，中心格永远落在中线上 */
+.wheel-track {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  will-change: transform;
+}
+.wheel-item {
+  flex: none;
+  width: 62px;
+  height: 62px;
+  line-height: 62px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+/* 中间格：最大最黑；越往左右两边越小越淡 */
+.lv0 {
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -2px;
+  color: #221F15;
+}
+.lv1 {
+  font-size: 23px;
+  color: #B7B1A1;
+}
+.lv2 {
+  font-size: 20px;
+  color: #C8C2B2;
+}
+.lv3 {
+  font-size: 17px;
+  color: #DBD6C7;
+}
+.lv4 {
+  font-size: 15px;
+  color: #E8E3D6;
+}
+/* 左右渐隐，和卡片白底融为一体 */
+.wheel-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 62px;
+  pointer-events: none;
+}
+.wheel-fade.left {
+  left: 0;
+  background: linear-gradient(90deg, #FFFFFF 22%, rgba(255, 255, 255, 0) 100%);
+}
+.wheel-fade.right {
+  right: 0;
+  background: linear-gradient(270deg, #FFFFFF 22%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* 右侧：一颗对号按钮记一组；灰调，作为次要动作存在 */
+.check-btn {
+  flex: none;
+  width: 42px;
+  height: 42px;
+  margin-left: 16px;
+  border-radius: 50%;
+  background: #8F897D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(31, 27, 12, 0.12);
+  transition: transform 0.12s ease, opacity 0.12s ease;
+}
+.check-btn:active {
+  transform: scale(0.9);
+  opacity: 0.9;
+}
+/* 纯 CSS 对号：左下两条边整体转 -45° */
+.check-ico {
+  width: 23px;
+  height: 12px;
+  margin-top: -4px;
+  border-left: 4px solid #FFFFFF;
+  border-bottom: 4px solid #FFFFFF;
+  border-radius: 2px;
+  transform: rotate(-45deg);
+}
+
+/* ---------- 名称下面那一行：本次负重（靠右，和上面的部位文案右对齐） ---------- */
+.weight-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+/* 负重纪录提示：挤在「负重」标签左侧的剩余空间里，不额外占一行高度 */
+.best-hint {
+  flex: 1;
+  min-width: 0;
+  margin-right: 12px;
+  text-align: left;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--text-3);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+/* 还差多少公斤：最需要被看见，用主题色；追平/超出用绿色/红色区分 */
+.best-hint.behind {
+  color: var(--brand-text);
+}
+.best-hint.match {
+  color: #2BC48A;
+}
+.best-hint.ahead {
+  color: #E5484D;
+}
+.weight-label {
+  flex: none;
+  margin-right: 12px;
+  font-size: 24px;
+  color: #8F897D;
+}
+.weight-control {
+  flex: none;
+  display: flex;
+  align-items: center;
+  width: 180px;
+  height: 56px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  background: var(--fill-2);
+  border-radius: 14px;
+}
+.weight-input {
+  flex: 1;
+  min-width: 0;
+  height: 56px;
+  text-align: right;
+  font-size: 26px;
+  color: #221F15;
+  font-variant-numeric: tabular-nums;
+}
+.weight-unit {
+  flex: none;
+  margin-left: 8px;
+  font-size: 22px;
+  color: #A69F8E;
+}
+
+/* ---------- 概览两栏（补回） ---------- */
+.hero-left {
+  flex: 1;
+}
+.hero-right {
+  flex: none;
+  margin-left: 24px;
+}
+.empty-btn {
+  margin-top: 32px;
+}
+
+/* ---------- 组明细：默认折叠，点第一行展开 ---------- */
+.set-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.set-row {
+  display: flex;
+  align-items: center;
+  width: 48.6%;
+  height: 54px;
+  margin-top: 10px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  background: var(--fill-2);
+  border-radius: 12px;
+  font-size: 22px;
+  color: #55514A;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.set-index {
+  flex: none;
+  margin-right: 8px;
+  color: #A69F8E;
+}
+/* 重量在前、加粗带项目色；次数退成灰字，主次和卡片第三行一致 */
+.set-weight {
+  flex: none;
+  margin-right: 8px;
+  font-size: 22px;
+  font-weight: 700;
+}
+.set-reps {
+  flex: none;
+  margin-right: 8px;
+  font-size: 20px;
+  color: #A69F8E;
+}
+.set-time {
+  flex: 1;
+  text-align: right;
+  color: #B7B1A1;
+  font-size: 20px;
+}
+.set-del {
+  flex: none;
+  width: 40px;
+  margin-left: 4px;
+  text-align: center;
+  font-size: 26px;
+  line-height: 1;
+  color: #C6C0AF;
+}
+.set-del:active {
+  color: #E5484D;
+}
+
+.foot-tip {
+  margin: 8px 0 20px;
+  text-align: center;
+  font-size: 22px;
+  line-height: 1.7;
+  color: #B7B1A1;
+}
+
+/* ---------- 添加一组的弹窗 ---------- */
+.mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+  background: rgba(31, 27, 12, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.mask.show {
+  opacity: 1;
+}
+.modal {
+  width: 580px;
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border-radius: 28px;
+  padding: 36px 32px 28px;
+  box-shadow: 0 20px 60px rgba(31, 27, 12, 0.25);
+}
+.modal-head {
+  display: flex;
+  align-items: center;
+  margin-bottom: 28px;
+}
+.modal-icon {
+  font-size: 40px;
+  margin-right: 12px;
+}
+.modal-icon-img {
+  width: 48px;
+  height: 48px;
+  margin-right: 12px;
+}
+.modal-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #221F15;
+}
+.field {
+  display: flex;
+  align-items: center;
+  height: 88px;
+  padding: 0 20px;
+  margin-bottom: 16px;
+  background: var(--fill-2);
+  border-radius: 16px;
+}
+.field-label {
+  flex: none;
+  width: 88px;
+  font-size: 26px;
+  color: #55514A;
+}
+.field-input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  font-size: 30px;
+  color: #221F15;
+}
+.field-unit {
+  flex: none;
+  font-size: 24px;
+  color: #A69F8E;
+}
+.modal-best {
+  margin: -2px 0 4px;
+  padding-left: 8px;
+  font-size: 22px;
+  color: var(--brand-text);
+}
+.modal-btns {
+  display: flex;
+  margin-top: 28px;
+}
+.modal-btn {
+  flex: 1;
+  height: 84px;
+  line-height: 84px;
+  text-align: center;
+  border-radius: 16px;
+  font-size: 28px;
+  font-weight: 600;
+}
+.modal-btn.cancel {
+  background: var(--fill);
+  color: #55514A;
+  margin-right: 16px;
+}
+.modal-btn.ok {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+
+/* ---------- 记一组成功：撒花反馈（不拦截点击，动画结束自动移除） ---------- */
+.confetti-layer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9999;
+  overflow: hidden;
+  pointer-events: none;
+}
+.confetti-bit {
+  position: absolute;
+  top: -40px;
+  opacity: 0;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+@keyframes cf-0 {
+  0%   { opacity: 0; transform: translate3d(0, -40px, 0) rotate(0deg); }
+  8%   { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(36px, 1350px, 0) rotate(680deg); }
+}
+@keyframes cf-1 {
+  0%   { opacity: 0; transform: translate3d(0, -40px, 0) rotate(0deg); }
+  8%   { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(-48px, 1350px, 0) rotate(-720deg); }
+}
+@keyframes cf-2 {
+  0%   { opacity: 0; transform: translate3d(0, -40px, 0) rotate(0deg); }
+  8%   { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(76px, 1350px, 0) rotate(540deg); }
+}
+@keyframes cf-3 {
+  0%   { opacity: 0; transform: translate3d(0, -40px, 0) rotate(0deg); }
+  8%   { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(-84px, 1350px, 0) rotate(-560deg); }
+}
+.confetti-word {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  padding: 14px 30px;
+  border-radius: 999px;
+  background: rgba(34, 31, 21, 0.86);
+  color: #FFFFFF;
+  font-size: 28px;
+  font-weight: 600;
+  white-space: nowrap;
+  animation: confetti-word 1.1s ease-out both;
+}
+@keyframes confetti-word {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  18%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  68%  { opacity: 1; transform: translate(-50%, -60%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -110%) scale(1); }
+}
+.wheel-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:40px;font-weight:700;color:#221F15;z-index:2}input{border:0;background:transparent;outline:0;font-family:inherit}.group-tabs{outline:2px dashed #E5484D;outline-offset:3px;border-radius:16px}.best-hint{outline:1px dashed #E5484D;outline-offset:2px;border-radius:4px}</style><body class="theme-lemon"><view class="page"><view class="date-bar"><view class="date-arrow">‹</view><view class="date-main"><text class="date-text">6月12日 周五</text><text class="date-tag">今天</text></view><view class="date-arrow disabled">›</view></view><scroll-view class="group-tabs" style="display:block"><view class="group-tab"><text>全部</text><text class="group-tab-n">4</text></view><view class="group-tab on"><text>上半身组</text><text class="group-tab-n">2</text></view><view class="group-tab"><text>下半身组</text><text class="group-tab-n">1</text></view><view class="group-tab"><text>核心组</text><text class="group-tab-n">1</text></view></scroll-view><view class="group-note">顶部概览为全天全部项目合计，下方只显示所选分组</view><view class="hero"><view class="hero-left"><view class="hero-label">当日总重量</view><view class="hero-num">2,680<text class="hero-unit">kg</text></view><view class="hero-weight"><text class="hero-weight-label">当日总次数</text><text class="hero-weight-num">66<text class="hero-weight-unit">次</text></text></view><view class="hero-sub">已完成 6 组 · 按体重 70kg 估算</view><view class="rank-tip">历史第 3 · 再做 320 kg 进第 2</view></view><view class="hero-right"><view class="hero-ring"><view class="ring-num"><text class="ring-pre">第</text>3</view></view></view></view><view class="ex-card"><view class="ex-head"><view class="ex-iconbox" style="background:#E8F8F1"><image class="ex-icon-img" src="../../images/ex-pushup.png"></image></view><view class="ex-bd"><view class="ex-line"><text class="ex-name">俯卧撑</text><view class="ex-line-stat"><text class="ex-load">1,080kg</text><text class="ex-rank">历史第 2 · 还差 320kg 进第 1</text></view></view><text class="ex-desc">上肢 · 胸肩三头</text><view class="weight-row"><text class="best-hint behind">纪录 40kg · 还差 12.5kg</text><text class="weight-label">负重</text><view class="weight-control"><input class="weight-input" value="27.5"><text class="weight-unit">kg</text></view></view></view></view><view class="log-row"><view class="wheel"><view class="wheel-window"></view><view class="wheel-center">12</view><view class="wheel-fade left"></view><view class="wheel-fade right"></view></view><view class="ex-meta"><text class="ex-meta-t">3组 · 36次</text><view class="ex-meta-ic"></view></view><view class="check-btn"><view class="check-ico"></view></view></view></view><view class="ex-card"><view class="ex-head"><view class="ex-iconbox" style="background:#FDEBEB"><image class="ex-icon-img" src="../../images/ex-powerbar.png"></image></view><view class="ex-bd"><view class="ex-line"><text class="ex-name">臂力棒</text><view class="ex-line-stat"><text class="ex-load">1,000kg</text><text class="ex-rank">历史第 1 · 已是最高</text></view></view><text class="ex-desc">上肢 · 胸肩三头</text><view class="weight-row"><text class="best-hint match">纪录 50kg · 已追平</text><text class="weight-label">负重</text><view class="weight-control"><input class="weight-input" value="50"><text class="weight-unit">kg</text></view></view></view></view><view class="log-row"><view class="wheel"><view class="wheel-window"></view><view class="wheel-center">10</view><view class="wheel-fade left"></view><view class="wheel-fade right"></view></view><view class="ex-meta"><text class="ex-meta-t">2组 · 20次</text><view class="ex-meta-ic"></view></view><view class="check-btn"><view class="check-ico"></view></view></view></view><view class="ex-card"><view class="ex-head"><view class="ex-iconbox" style="background:#F1EBFE"><image class="ex-icon-img" src="../../images/ex-cablerow.png"></image></view><view class="ex-bd"><view class="ex-line"><text class="ex-name">哑铃划船</text><view class="ex-line-stat"><text class="ex-load">600kg</text><text class="ex-rank">历史第 3 · 还差 240kg 进第 2</text></view></view><text class="ex-desc">背部 · 中背</text><view class="weight-row"><text class="best-hint ahead">纪录 55kg · 超出 5kg</text><text class="weight-label">负重</text><view class="weight-control"><input class="weight-input" value="60"><text class="weight-unit">kg</text></view></view></view></view><view class="log-row"><view class="wheel"><view class="wheel-window"></view><view class="wheel-center">10</view><view class="wheel-fade left"></view><view class="wheel-fade right"></view></view><view class="ex-meta"><text class="ex-meta-t">1组 · 10次</text><view class="ex-meta-ic"></view></view><view class="check-btn"><view class="check-ico"></view></view></view></view><view class="foot-tip">数据保存在本机，换设备不会同步，记得定期备份</view></view><view class="confetti-layer"><view class="confetti-bit" style="left:2%;width:8px;height:8px;background:#FFC53D;border-radius:50%;animation-name:cf-0;animation-duration:900ms;animation-delay:0ms"></view><view class="confetti-bit" style="left:39%;width:15px;height:24px;background:#FF7A59;border-radius:2px;animation-name:cf-1;animation-duration:917ms;animation-delay:9ms"></view><view class="confetti-bit" style="left:76%;width:11px;height:18px;background:#36CFC9;border-radius:2px;animation-name:cf-2;animation-duration:934ms;animation-delay:18ms"></view><view class="confetti-bit" style="left:19%;width:18px;height:18px;background:#597EF7;border-radius:50%;animation-name:cf-3;animation-duration:951ms;animation-delay:27ms"></view><view class="confetti-bit" style="left:56%;width:14px;height:22px;background:#F759AB;border-radius:2px;animation-name:cf-0;animation-duration:968ms;animation-delay:36ms"></view><view class="confetti-bit" style="left:93%;width:10px;height:16px;background:#52C41A;border-radius:2px;animation-name:cf-1;animation-duration:985ms;animation-delay:45ms"></view><view class="confetti-bit" style="left:36%;width:17px;height:17px;background:#FFD666;border-radius:50%;animation-name:cf-2;animation-duration:1002ms;animation-delay:54ms"></view><view class="confetti-bit" style="left:73%;width:13px;height:21px;background:#FFC53D;border-radius:2px;animation-name:cf-3;animation-duration:1019ms;animation-delay:63ms"></view><view class="confetti-bit" style="left:16%;width:9px;height:14px;background:#FF7A59;border-radius:2px;animation-name:cf-0;animation-duration:1036ms;animation-delay:72ms"></view><view class="confetti-bit" style="left:53%;width:16px;height:16px;background:#36CFC9;border-radius:50%;animation-name:cf-1;animation-duration:1053ms;animation-delay:81ms"></view><view class="confetti-bit" style="left:90%;width:12px;height:19px;background:#597EF7;border-radius:2px;animation-name:cf-2;animation-duration:1070ms;animation-delay:90ms"></view><view class="confetti-bit" style="left:33%;width:8px;height:13px;background:#F759AB;border-radius:2px;animation-name:cf-3;animation-duration:1087ms;animation-delay:99ms"></view><view class="confetti-bit" style="left:70%;width:15px;height:15px;background:#52C41A;border-radius:50%;animation-name:cf-0;animation-duration:1104ms;animation-delay:108ms"></view><view class="confetti-bit" style="left:13%;width:11px;height:18px;background:#FFD666;border-radius:2px;animation-name:cf-1;animation-duration:1121ms;animation-delay:117ms"></view><view class="confetti-bit" style="left:50%;width:18px;height:29px;background:#FFC53D;border-radius:2px;animation-name:cf-2;animation-duration:1138ms;animation-delay:126ms"></view><view class="confetti-bit" style="left:87%;width:14px;height:14px;background:#FF7A59;border-radius:50%;animation-name:cf-3;animation-duration:1155ms;animation-delay:135ms"></view><view class="confetti-bit" style="left:30%;width:10px;height:16px;background:#36CFC9;border-radius:2px;animation-name:cf-0;animation-duration:1172ms;animation-delay:144ms"></view><view class="confetti-bit" style="left:67%;width:17px;height:27px;background:#597EF7;border-radius:2px;animation-name:cf-1;animation-duration:1189ms;animation-delay:153ms"></view><view class="confetti-bit" style="left:10%;width:13px;height:13px;background:#F759AB;border-radius:50%;animation-name:cf-2;animation-duration:1206ms;animation-delay:162ms"></view><view class="confetti-bit" style="left:47%;width:9px;height:14px;background:#52C41A;border-radius:2px;animation-name:cf-3;animation-duration:1223ms;animation-delay:171ms"></view><view class="confetti-bit" style="left:84%;width:16px;height:26px;background:#FFD666;border-radius:2px;animation-name:cf-0;animation-duration:1240ms;animation-delay:180ms"></view><view class="confetti-bit" style="left:27%;width:12px;height:12px;background:#FFC53D;border-radius:50%;animation-name:cf-1;animation-duration:1257ms;animation-delay:189ms"></view><view class="confetti-bit" style="left:64%;width:8px;height:13px;background:#FF7A59;border-radius:2px;animation-name:cf-2;animation-duration:1274ms;animation-delay:198ms"></view><view class="confetti-bit" style="left:7%;width:15px;height:24px;background:#36CFC9;border-radius:2px;animation-name:cf-3;animation-duration:1291ms;animation-delay:207ms"></view><view class="confetti-bit" style="left:44%;width:11px;height:11px;background:#597EF7;border-radius:50%;animation-name:cf-0;animation-duration:1308ms;animation-delay:216ms"></view><view class="confetti-bit" style="left:81%;width:18px;height:29px;background:#F759AB;border-radius:2px;animation-name:cf-1;animation-duration:1325ms;animation-delay:225ms"></view><view class="confetti-bit" style="left:24%;width:14px;height:22px;background:#52C41A;border-radius:2px;animation-name:cf-2;animation-duration:1342ms;animation-delay:234ms"></view><view class="confetti-bit" style="left:61%;width:10px;height:10px;background:#FFD666;border-radius:50%;animation-name:cf-3;animation-duration:1359ms;animation-delay:243ms"></view><view class="confetti-word">已记录一组</view></view></body>

@@ -1,0 +1,216 @@
+<view class="page {{themeClass}}">
+
+  <!-- 资料卡：头像 + 昵称 -->
+  <view class="prof-hero">
+    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image wx:if="{{p.avatar}}" class="avatar" src="{{p.avatar}}" mode="aspectFill" />
+      <view wx:else class="avatar avatar-ph">{{initial}}</view>
+      <view class="avatar-cam">📷</view>
+    </button>
+
+    <view class="prof-id">
+      <input
+        class="nick-input"
+        type="nickname"
+        value="{{p.nickname}}"
+        placeholder="点此填写昵称"
+        placeholder-class="nick-ph"
+        maxlength="20"
+        bindblur="onNickname"
+      />
+      <view class="prof-sub">{{summaryLine}}</view>
+    </view>
+  </view>
+
+  <view class="hint-bar">
+    <text class="hint-ic">💡</text>
+    <text class="hint-t">点头像可用微信头像，点昵称框可一键填入微信昵称</text>
+  </view>
+
+  <!-- BMI -->
+  <view class="card bmi-card" wx:if="{{bmi.ok}}">
+    <view class="bmi-left">
+      <view class="bmi-label">BMI 身体质量指数</view>
+      <view class="bmi-num" style="color: {{bmi.color}};">{{bmi.value}}</view>
+      <view class="bmi-tag" style="background: {{bmi.color}};">{{bmi.text}}</view>
+    </view>
+    <view class="bmi-right">
+      <view class="bmi-row">
+        <text class="bmi-k">当前体重</text>
+        <text class="bmi-v">{{p.weight}} kg</text>
+      </view>
+      <view class="bmi-row">
+        <text class="bmi-k">身高</text>
+        <text class="bmi-v">{{p.height}} cm</text>
+      </view>
+      <view class="bmi-row">
+        <text class="bmi-k">健康体重</text>
+        <text class="bmi-v">{{bmi.range}} kg</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 基本资料 -->
+  <view class="card">
+    <view class="card-title">基本资料</view>
+
+    <view class="field-row">
+      <text class="field-k">性别</text>
+      <view class="seg">
+        <view
+          class="seg-item {{genderIndex === 0 ? 'on' : ''}}"
+          data-i="0"
+          bindtap="onGender"
+        >男</view>
+        <view
+          class="seg-item {{genderIndex === 1 ? 'on' : ''}}"
+          data-i="1"
+          bindtap="onGender"
+        >女</view>
+        <view
+          class="seg-item {{genderIndex === 2 ? 'on' : ''}}"
+          data-i="2"
+          bindtap="onGender"
+        >保密</view>
+      </view>
+    </view>
+
+    <view class="field-row">
+      <text class="field-k">年龄</text>
+      <input
+        class="field-v"
+        type="number"
+        placeholder="未填写"
+        value="{{inputAge}}"
+        bindinput="onAgeInput"
+        bindblur="commitAge"
+      />
+      <text class="field-u">岁</text>
+    </view>
+
+    <view class="field-row">
+      <text class="field-k">身高</text>
+      <input
+        class="field-v"
+        type="digit"
+        placeholder="未填写"
+        value="{{inputHeight}}"
+        bindinput="onHeightInput"
+        bindblur="commitHeight"
+      />
+      <text class="field-u">cm</text>
+    </view>
+  </view>
+
+  <!-- 体重记录 -->
+  <view class="card">
+    <view class="card-title">
+      体重记录
+      <text class="sub" wx:if="{{weightCount > 0}}">共 {{weightCount}} 条</text>
+    </view>
+
+    <view class="w-add">
+      <input
+        class="w-input"
+        type="digit"
+        placeholder="今天体重"
+        value="{{inputWeight}}"
+        bindinput="onWeightInput"
+      />
+      <text class="w-unit">kg</text>
+      <view class="w-btn" bindtap="addWeight">记录</view>
+    </view>
+
+    <view class="w-list" wx:if="{{hasWeight}}">
+      <view class="w-row" wx:for="{{weights}}" wx:key="date">
+        <view class="w-date">
+          {{item.dateText}}
+          <text class="w-today" wx:if="{{item.isToday}}">今天</text>
+        </view>
+        <view class="w-kg">{{item.kg}}<text class="w-kg-u">kg</text></view>
+        <text class="w-diff {{item.diffClass}}" wx:if="{{item.diffText}}">{{item.diffText}}</text>
+        <text class="w-diff flat" wx:else>—</text>
+        <text class="w-del" data-date="{{item.date}}" bindtap="delWeight">×</text>
+      </view>
+    </view>
+
+    <view class="w-empty" wx:else>还没有体重记录，记一条看看变化趋势</view>
+  </view>
+
+  <!-- 我的数据 -->
+  <view class="card">
+    <view class="card-title">我的数据</view>
+    <view class="stat-grid">
+      <view class="stat-cell">
+        <view class="stat-n">{{stats.total}}</view>
+        <view class="stat-l">累计次数</view>
+      </view>
+      <view class="stat-cell">
+        <view class="stat-n">{{stats.days}}</view>
+        <view class="stat-l">打卡天数</view>
+      </view>
+      <view class="stat-cell">
+        <view class="stat-n">{{stats.streak}}</view>
+        <view class="stat-l">连续天数</view>
+      </view>
+      <view class="stat-cell">
+        <view class="stat-n">{{stats.exercises}}</view>
+        <view class="stat-l">在练项目</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 主题外观 -->
+  <view class="card">
+    <view class="card-title">主题外观<text class="sub">当前 · {{themeName}}</text></view>
+    <view class="theme-grid">
+      <view
+        class="theme-cell {{item.id === themeId ? 'on' : ''}}"
+        wx:for="{{themes}}"
+        wx:key="id"
+        data-id="{{item.id}}"
+        bindtap="pickTheme"
+      >
+        <view
+          class="theme-dot"
+          style="background: linear-gradient(135deg, {{item.brand2}}, {{item.brand}});"
+        >
+          <view class="theme-tick" wx:if="{{item.id === themeId}}"></view>
+        </view>
+        <view class="theme-name">{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 入口 -->
+  <view class="entry" bindtap="goShare">
+    <view class="entry-ic">📣</view>
+    <view class="entry-bd">
+      <view class="entry-t">生成分享卡</view>
+      <view class="entry-d">把成绩发到朋友圈</view>
+    </view>
+    <view class="entry-ar">›</view>
+  </view>
+
+  <view class="entry" bindtap="goExercise">
+    <view class="entry-ic">🏋️</view>
+    <view class="entry-bd">
+      <view class="entry-t">锻炼项目</view>
+      <view class="entry-d">添加、改名、隐藏自定义项目</view>
+    </view>
+    <view class="entry-ar">›</view>
+  </view>
+
+  <view class="entry" bindtap="goBackup">
+    <view class="entry-ic">💾</view>
+    <view class="entry-bd">
+      <view class="entry-t">备份与恢复</view>
+      <view class="entry-d">清缓存 / 换手机不丢数据</view>
+    </view>
+    <view class="entry-ar">›</view>
+  </view>
+
+  <view class="danger" bindtap="resetProfile">清空个人资料</view>
+
+  <view class="foot-tip" bindtap="onSecretTap">资料保存在本机，不上传服务器；头像为本地文件，不随备份文本迁移</view>
+</view>

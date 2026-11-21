@@ -1,0 +1,124 @@
+<view class="page {{themeClass}}">
+
+  <!-- ==========================================================
+       A. 朋友圈「单页模式」打开（场景值 1154）
+       该模式下本地存储不共用、路由/授权/保存图片全部禁用，
+       所以这里只用 WXML 渲染 query 带过来的数据，不放任何按钮。
+       ========================================================== -->
+  <view wx:if="{{single}}" class="sp">
+    <view class="sp-card">
+      <view class="sp-top">
+        <view class="sp-brand">锻炼记录</view>
+        <view class="sp-date">{{stat.dateText}} {{stat.week}}</view>
+      </view>
+      <view class="sp-nick" wx:if="{{stat.nick}}">{{stat.nick}}</view>
+
+      <view class="sp-hero">
+        <view class="sp-hero-main">
+          <view class="sp-hero-label">{{stat.heroLabel}}</view>
+          <view class="sp-hero-num">
+            {{stat.dayWeightText}}<text class="sp-hero-unit">{{stat.dayWeightUnit}}</text>
+          </view>
+        </view>
+        <view class="sp-weight">
+          <view class="sp-weight-label">{{stat.subLabel}}</view>
+          <view class="sp-weight-num">{{stat.heroNum}}<text class="sp-weight-unit">次</text></view>
+          <view class="sp-weight-sub">{{stat.groups}} 组</view>
+        </view>
+      </view>
+
+      <view class="sp-record" wx:if="{{stat.caption}}">
+        <text class="sp-record-t">{{stat.caption}}</text>
+      </view>
+
+      <view class="sp-rows">
+        <view class="sp-row" wx:for="{{rows}}" wx:key="key">
+          <text class="sp-name">{{item.name}}</text>
+          <text class="sp-muscle" wx:if="{{item.muscle}}">{{item.muscle}}</text>
+          <text class="sp-val {{item.load > 0 ? '' : 'solo'}}">{{item.sets > 0 ? item.setsText + ' 组 · ' : ''}}{{item.totalText}} 次</text>
+          <text class="sp-kg" wx:if="{{item.load > 0}}">{{item.loadText}} kg</text>
+        </view>
+      </view>
+
+      <view class="sp-bottom">
+        <view class="sp-box">
+          <view class="sp-box-label">连续打卡</view>
+          <view class="sp-box-num">{{stat.streak}}<text class="sp-box-unit">天</text></view>
+        </view>
+        <view class="sp-box">
+          <view class="sp-box-label">打卡总天数</view>
+          <view class="sp-box-num">{{stat.days}}<text class="sp-box-unit">天</text></view>
+        </view>
+      </view>
+
+      <view class="sp-foot">坚持就是胜利</view>
+    </view>
+  </view>
+
+  <!-- ==========================================================
+       B. 正常模式
+       ========================================================== -->
+  <block wx:else>
+
+    <view class="empty" wx:if="{{!hasData}}">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">{{stat.dateText}}还没有锻炼记录\n去打卡后，再生成这一天的分享卡</text>
+      <view class="btn btn-primary empty-btn" bindtap="goToday">去打卡</view>
+    </view>
+
+    <block wx:else>
+
+      <!-- 分享日期：默认来自打卡页，也可以在这里另选一天 -->
+      <view class="card">
+        <view class="card-title">分享日期<text class="sub">仅显示这一天的记录</text></view>
+        <picker mode="date" value="{{stat.date}}" end="{{today}}" bindchange="changeDate">
+          <view class="date-picker">
+            <text class="date-picker-text">{{stat.dateText}} {{stat.week}}</text>
+            <text class="date-picker-arrow">›</text>
+          </view>
+        </picker>
+      </view>
+
+      <!-- 海报预览（canvas 直接显示，导出图只用于保存和分享卡片） -->
+      <view class="card">
+        <view class="card-title">分享卡预览<text class="sub">全部项目 · 自动高度</text></view>
+        <canvas type="2d" id="poster" class="poster" style="{{posterStyle}}"></canvas>
+        <view class="code-line">
+          小程序码：{{codeHint}}
+          <text wx:if="{{!hasCode}}" class="code-warn">（未生效，海报里不会出现码）</text>
+        </view>
+      </view>
+
+      <!-- 使用说明 -->
+      <view class="card">
+        <view class="card-title">怎么发朋友圈</view>
+        <view class="step">
+          <text class="step-no">1</text>
+          <text class="step-t">点「保存图片到相册」，再去朋友圈从相册选这张图发布</text>
+        </view>
+        <view class="step">
+          <text class="step-no">2</text>
+          <text class="step-t">或点右上角 ··· → 分享到朋友圈，直接分享小程序页面</text>
+        </view>
+        <view class="step">
+          <text class="step-no">3</text>
+          <text class="step-t">点「分享给好友」，卡片封面就是这张带小程序码的海报，对方长按即可扫码</text>
+        </view>
+        <view class="step-note">微信不允许小程序直接发布朋友圈，两种方式都需要你最后点一下确认</view>
+      </view>
+
+      <view class="btn-row">
+        <view class="btn btn-primary btn-flex" bindtap="saveImage">保存图片到相册</view>
+        <button class="btn btn-ghost btn-flex btn-share" open-type="share">分享给好友</button>
+      </view>
+      <view class="btn-row">
+        <view class="btn btn-ghost btn-flex" bindtap="regenerate">重新生成</view>
+      </view>
+
+      <view class="foot-tip" wx:if="{{posterError}}">海报导出失败，可点「重新生成」再试一次</view>
+      <view class="foot-tip" wx:else>朋友圈打开的是单页模式，数据来自分享链接，不读取你手机里的记录</view>
+    </block>
+
+  </block>
+
+</view>

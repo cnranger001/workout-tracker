@@ -1,0 +1,86 @@
+<view class="page {{themeClass}}">
+
+  <view class="empty" wx:if="{{empty}}">
+    <text class="empty-icon">📊</text>
+    <text class="empty-text">还没有数据\n记录一次就能看到统计啦</text>
+    <view class="btn btn-primary empty-btn" bindtap="goToday">去打卡</view>
+  </view>
+
+  <block wx:else>
+
+    <!-- 核心指标 -->
+    <view class="grid">
+      <view class="grid-cell">
+        <view class="grid-num">{{summary.totalLoad.text}}<text class="grid-unit">{{summary.totalLoad.unit}}</text></view>
+        <view class="grid-label">累计容量</view>
+      </view>
+      <view class="grid-cell">
+        <view class="grid-num">{{summary.days}}</view>
+        <view class="grid-label">打卡天数</view>
+      </view>
+      <view class="grid-cell">
+        <view class="grid-num hl">{{summary.streak}}</view>
+        <view class="grid-label">连续天数</view>
+      </view>
+      <view class="grid-cell">
+        <view class="grid-num">{{summary.weekLoad.text}}<text class="grid-unit">{{summary.weekLoad.unit}}</text></view>
+        <view class="grid-label">本周容量</view>
+      </view>
+      <view class="grid-cell">
+        <view class="grid-num">{{summary.avgLoad.text}}<text class="grid-unit">{{summary.avgLoad.unit}}</text></view>
+        <view class="grid-label">日均容量</view>
+      </view>
+      <view class="grid-cell" wx:if="{{bestLoad}}">
+        <view class="grid-num sm">{{bestLoad.text}}<text class="grid-unit">{{bestLoad.unit}}</text></view>
+        <view class="grid-label">单日最高</view>
+      </view>
+    </view>
+
+    <!-- 吨位走势：日K / 周K / 月K -->
+    <view class="card">
+      <view class="card-title">吨位走势<text class="sub">{{loadRangeText}} · 合计 {{loadSum.text}} {{loadSum.unit}}</text></view>
+      <view class="ktabs">
+        <view class="ktab {{gran === 'day' ? 'on' : ''}}" data-g="day" bindtap="pickGran">日K</view>
+        <view class="ktab {{gran === 'week' ? 'on' : ''}}" data-g="week" bindtap="pickGran">周K</view>
+        <view class="ktab {{gran === 'month' ? 'on' : ''}}" data-g="month" bindtap="pickGran">月K</view>
+      </view>
+      <canvas type="2d" id="chartLoad" class="chart chart-load"></canvas>
+    </view>
+
+    <!-- 各项目累计 -->
+    <view class="card">
+      <view class="card-title">项目累计<text class="sub" wx:if="{{loadTotal && loadTotal.kg > 0}}">共 {{loadTotal.text}} {{loadTotal.unit}}</text></view>
+      <view class="type-row" wx:for="{{byType}}" wx:key="key">
+        <image wx:if="{{item.iconPath}}" class="type-icon-img" src="{{item.iconPath}}" mode="aspectFit"/>
+        <text wx:else class="type-icon">{{item.icon}}</text>
+        <view class="type-body">
+          <view class="type-top">
+            <text class="type-name">{{item.name}}</text>
+            <text class="type-num" style="color: {{item.color}};">{{item.total}} 次</text>
+          </view>
+          <view class="type-bar">
+            <view class="type-fill" style="width: {{item.pct}}%; background: {{item.color}};"></view>
+          </view>
+          <view class="type-sub">
+            <text wx:if="{{item.load > 0}}" class="type-load">{{item.loadText}} {{item.loadUnit}}</text>
+            <text wx:if="{{item.load > 0}}" class="type-dot"> · </text>
+            <text>单组最高 {{item.best}} 次</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 分享入口 -->
+    <view class="share-entry" bindtap="goShare">
+      <view class="share-entry-ic">📣</view>
+      <view class="share-entry-bd">
+        <view class="share-entry-t">生成分享卡</view>
+        <view class="share-entry-d">把单日成绩发到朋友圈</view>
+      </view>
+      <view class="share-entry-ar">›</view>
+    </view>
+
+    <view class="foot-tip" wx:if="{{bestLoad}}">最佳纪录：{{bestLoad.date}} 共 {{bestLoad.text}} {{bestLoad.unit}}</view>
+  </block>
+
+</view>

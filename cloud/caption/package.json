@@ -1,0 +1,9 @@
+{
+  "name": "caption",
+  "version": "1.0.0",
+  "description": "按当天训练量写一句分享文案（调用 OpenAI 兼容接口）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "adminStats",
+  "version": "1.0.0",
+  "description": "管理后台统计：校验口令后返回去重用户数、活跃趋势与平台分布",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

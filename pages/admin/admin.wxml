@@ -1,0 +1,155 @@
+<view class="page {{themeClass}}">
+
+  <!-- ================= 未授权：口令门禁 ================= -->
+  <view wx:if="{{!authed}}" class="card gate">
+    <view class="gate-ic">🔒</view>
+    <view class="gate-t">管理入口</view>
+    <view class="gate-d">仅开发者本人使用。请输入云函数里设置的 ADMIN_TOKEN。</view>
+    <input
+      class="gate-input"
+      password
+      placeholder="管理口令"
+      placeholder-class="gate-ph"
+      value="{{token}}"
+      bindinput="onTokenInput"
+      bindconfirm="submit"
+    />
+    <view class="btn btn-primary btn-block" bindtap="submit">进入</view>
+    <view class="gate-tip">口令校验在云函数端完成，输错不会返回任何数据</view>
+  </view>
+
+  <!-- ================= 已授权：数据面板 ================= -->
+  <block wx:else>
+
+    <view class="card" wx:if="{{error}}">
+      <view class="err-line">{{error}}</view>
+      <view class="btn btn-ghost btn-block" bindtap="load">重试</view>
+    </view>
+
+    <block wx:if="{{s}}">
+      <!-- 核心数字 -->
+      <view class="card">
+        <view class="card-title">
+          用户概况
+          <text class="sub">更新于 {{updatedAt}}</text>
+        </view>
+        <view class="kpi">
+          <view class="kpi-cell">
+            <view class="kpi-n">{{s.total}}</view>
+            <view class="kpi-l">累计用户</view>
+          </view>
+          <view class="kpi-cell">
+            <view class="kpi-n">{{s.activeToday}}</view>
+            <view class="kpi-l">今日活跃</view>
+          </view>
+          <view class="kpi-cell">
+            <view class="kpi-n">{{s.active7}}</view>
+            <view class="kpi-l">7 日活跃</view>
+          </view>
+          <view class="kpi-cell">
+            <view class="kpi-n">{{s.active30}}</view>
+            <view class="kpi-l">30 日活跃</view>
+          </view>
+        </view>
+        <view class="kpi kpi-sub">
+          <view class="kpi-cell">
+            <view class="kpi-n2">{{s.newToday}}</view>
+            <view class="kpi-l">今日新增</view>
+          </view>
+          <view class="kpi-cell">
+            <view class="kpi-n2">{{s.new7}}</view>
+            <view class="kpi-l">7 日新增</view>
+          </view>
+          <view class="kpi-cell">
+            <view class="kpi-n2">{{s.new30}}</view>
+            <view class="kpi-l">30 日新增</view>
+          </view>
+          <view class="kpi-cell">
+            <view class="kpi-n2">{{s.avgVisits}}</view>
+            <view class="kpi-l">人均打开天数</view>
+          </view>
+        </view>
+        <view class="foot-tip" wx:if="{{s.firstDay}}">首位用户出现于 {{s.firstDay}}</view>
+      </view>
+
+      <!-- 近 14 天趋势 -->
+      <view class="card">
+        <view class="card-title">
+          近 14 天活跃
+          <text class="sub">堆叠柱：新增 + 回访</text>
+        </view>
+
+        <view class="legend">
+          <view class="lg"><view class="lg-dot new"></view>新增用户</view>
+          <view class="lg"><view class="lg-dot ret"></view>回访用户</view>
+        </view>
+
+        <view class="chart">
+          <view class="bar-col" wx:for="{{series}}" wx:key="date">
+            <view class="bar-top" wx:if="{{item.active > 0}}">{{item.active}}</view>
+            <view class="bar-wrap">
+              <view class="bar ret" style="height: {{item.retH}}%;"></view>
+              <view class="bar new" style="height: {{item.newH}}%;"></view>
+            </view>
+            <view class="bar-label">{{item.dnum}}</view>
+          </view>
+        </view>
+
+        <view class="chart-foot">横轴为日期（日），纵轴为当天活跃的去重用户数</view>
+      </view>
+
+      <!-- 平台分布 -->
+      <view class="card" wx:if="{{platforms.length > 0}}">
+        <view class="card-title">客户端分布</view>
+        <view class="pf-row" wx:for="{{platforms}}" wx:key="name">
+          <view class="pf-name">{{item.name}}</view>
+          <view class="pf-bar">
+            <view class="pf-fill" style="width: {{item.count * 100 / s.total}}%;"></view>
+          </view>
+          <view class="pf-n">{{item.count}}</view>
+        </view>
+      </view>
+
+      <!-- 说明 -->
+      <view class="card">
+        <view class="card-title">这个面板看到了什么</view>
+        <view class="note">
+          <text class="note-k">存了什么</text>
+          <text class="note-v">openid 的加盐哈希（24 位，不可逆）、首次与最近使用日期、活跃日期列表、机型。不含姓名、头像、锻炼记录。</text>
+        </view>
+        <view class="note">
+          <text class="note-k">没存什么</text>
+          <text class="note-v">不上传任何锻炼数据、个人资料、体重、昵称与头像。</text>
+        </view>
+        <view class="note">
+          <text class="note-k">口径</text>
+          <text class="note-v">用户按哈希去重；活跃 = 当天打开过小程序；日期按东八区计算。</text>
+        </view>
+      </view>
+
+      <!-- 开关 -->
+      <view class="card">
+        <view class="sw-row">
+          <view class="sw-bd">
+            <view class="sw-t">匿名活跃统计</view>
+            <view class="sw-d">关闭后本机停止上报</view>
+          </view>
+          <switch checked="{{!off}}" bindchange="onToggleOff" color="#FFC300" />
+        </view>
+      </view>
+
+      <view class="btn-row">
+        <view class="btn btn-primary btn-flex" bindtap="load">刷新</view>
+        <view class="btn btn-ghost btn-flex" bindtap="logout">退出</view>
+      </view>
+
+      <view class="foot-tip">本页不在任何菜单里，也不含其他用户的个人信息，只有聚合计数</view>
+    </block>
+
+    <view class="empty" wx:if="{{!s && !error && loading}}">
+      <text class="empty-text">正在读取…</text>
+    </view>
+
+  </block>
+
+</view>

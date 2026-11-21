@@ -1,0 +1,67 @@
+<view class="page {{themeClass}}">
+
+  <!-- 概览 -->
+  <view class="card">
+    <view class="card-title">本机数据</view>
+    <view class="ov">
+      <view class="ov-item">
+        <view class="ov-num">{{totalDays}}</view>
+        <view class="ov-label">打卡天数</view>
+      </view>
+      <view class="ov-item">
+        <view class="ov-num">{{setCount}}</view>
+        <view class="ov-label">总组数</view>
+      </view>
+      <view class="ov-item">
+        <view class="ov-num">{{totalReps}}</view>
+        <view class="ov-label">累计次数</view>
+      </view>
+    </view>
+    <view class="foot-tip" wx:if="{{lastDate}}">最近记录：{{lastDate}}</view>
+  </view>
+
+  <!-- 导出 -->
+  <view class="card">
+    <view class="card-title">① 导出备份<text class="sub">复制到备忘录 / 发给自己</text></view>
+    <view class="tip">微信清理缓存、换手机都会清空本机数据。建议每周导出一次。</view>
+
+    <block wx:if="{{backupEmpty}}">
+      <view class="ta-empty">
+        <text class="ta-empty-ic">📭</text>
+        <text class="ta-empty-t">还没有记录，先去打卡再来导出</text>
+      </view>
+      <view class="btn btn-primary btn-block" bindtap="goToday">去打卡</view>
+    </block>
+
+    <block wx:else>
+      <view class="code-line">共 {{setCount}} 组 · {{totalDays}} 天 · 约 {{backupText.length}} 字符</view>
+      <textarea class="ta" value="{{backupText}}" maxlength="-1" show-confirm-bar="{{false}}" bindinput="onBackupInput"></textarea>
+      <view class="btn-row">
+        <view class="btn btn-primary btn-flex" bindtap="copyText">复制全部</view>
+        <view class="btn btn-ghost btn-flex" bindtap="shareFile">存为 txt</view>
+      </view>
+      <view class="foot-tip">文本以 WORKOUT_BACKUP_1 开头，复制时请包含这一行</view>
+    </block>
+  </view>
+
+  <!-- 导入 -->
+  <view class="card">
+    <view class="card-title">② 导入恢复<text class="sub">粘贴之前导出的文本</text></view>
+    <textarea class="ta ta-in" value="{{importText}}" maxlength="-1" placeholder="在此粘贴备份文本（以 WORKOUT_BACKUP_1 开头）" bindinput="onImportInput"></textarea>
+
+    <view class="seg">
+      <view class="seg-item {{mode === 'merge' ? 'on' : ''}}" data-mode="merge" bindtap="switchMode">合并（保留现有）</view>
+      <view class="seg-item {{mode === 'replace' ? 'on' : ''}}" data-mode="replace" bindtap="switchMode">覆盖（清空后导入）</view>
+    </view>
+
+    <view class="parse-line {{parseOk ? 'ok' : 'err'}}" wx:if="{{parseMsg}}">{{parseMsg}}</view>
+
+    <view class="btn-row">
+      <view class="btn btn-primary btn-flex {{canImport ? '' : 'disabled'}}" bindtap="doImport">{{mode === 'replace' ? '覆盖导入' : '合并导入'}}</view>
+      <view class="btn btn-ghost btn-flex" bindtap="clearImport">清空</view>
+    </view>
+  </view>
+
+  <view class="foot-tip">数据只存在本机，不会上传到任何服务器。换设备时用上面的导出 / 导入搬家。</view>
+
+</view>

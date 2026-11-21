@@ -1,0 +1,50 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/history/history",
+    "pages/stats/stats",
+    "pages/share/share",
+    "pages/backup/backup",
+    "pages/exercise/exercise",
+    "pages/profile/profile",
+    "pages/admin/admin"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#FFC300",
+    "navigationBarTitleText": "锻炼记录",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FAF8EF"
+  },
+  "tabBar": {
+    "color": "#A69F8E",
+    "selectedColor": "#C08A00",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "打卡"
+      },
+      {
+        "pagePath": "pages/history/history",
+        "text": "历史"
+      },
+      {
+        "pagePath": "pages/stats/stats",
+        "text": "统计"
+      },
+      {
+        "pagePath": "pages/exercise/exercise",
+        "text": "项目"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

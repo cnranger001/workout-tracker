@@ -1,0 +1,373 @@
+page {
+  /* ---------- 主题变量 ----------
+     下面两段由 tools/gen-theme-css.js 从 utils/theme.js 生成，改色值请改 theme.js，
+     不要手改这两段（会被下次生成覆盖）。 */
+  /* @theme-default:start */
+  /* 默认 = 柠檬黄（没设置过主题时的兜底，与 .theme-lemon 完全一致） */
+  --brand: #FFC300;
+  --brand-2: #FFD84D;
+  --brand-deep: #E0A100;
+  --brand-text: #8A6500;
+  --brand-ink: #3A2F00;
+  --brand-soft: #FFF6D0;
+  --brand-soft-2: #FBF5DC;
+  --brand-shadow: rgba(224,161,0,0.32);
+  --bg: #FAF8EF;
+  --card: #FFFFFF;
+  --line: #F0EDE0;
+  --text-1: #221F15;
+  --text-2: #55514A;
+  --text-3: #A69F8E;
+  --arrow: #C9C3B2;
+  --fill: #F4F2E8;
+  --fill-2: #F7F5EC;
+  --ink-85: rgba(58,47,0,0.85);
+  --ink-62: rgba(58,47,0,0.62);
+  --ink-55: rgba(58,47,0,0.55);
+  --ink-45: rgba(58,47,0,0.45);
+  --ink-35: rgba(58,47,0,0.35);
+  --ink-16: rgba(58,47,0,0.16);
+  /* @theme-default:end */
+
+  /* 圆角不随主题变 */
+  --radius: 20rpx;
+
+  background: var(--bg);
+  color: var(--text-1);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+/* ---------- 主题类 ----------
+   页面根节点带上 .theme-xxx，变量覆盖向下继承；
+   页面内部所有样式只引用变量，所以换主题不需要动任何布局。 */
+/* @theme-classes:start */
+.theme-lemon {   /* 柠檬黄 · 默认 */
+  --brand: #FFC300;
+  --brand-2: #FFD84D;
+  --brand-deep: #E0A100;
+  --brand-text: #8A6500;
+  --brand-ink: #3A2F00;
+  --brand-soft: #FFF6D0;
+  --brand-soft-2: #FBF5DC;
+  --brand-shadow: rgba(224,161,0,0.32);
+  --bg: #FAF8EF;
+  --card: #FFFFFF;
+  --line: #F0EDE0;
+  --text-1: #221F15;
+  --text-2: #55514A;
+  --text-3: #A69F8E;
+  --arrow: #C9C3B2;
+  --fill: #F4F2E8;
+  --fill-2: #F7F5EC;
+  --ink-85: rgba(58,47,0,0.85);
+  --ink-62: rgba(58,47,0,0.62);
+  --ink-55: rgba(58,47,0,0.55);
+  --ink-45: rgba(58,47,0,0.45);
+  --ink-35: rgba(58,47,0,0.35);
+  --ink-16: rgba(58,47,0,0.16);
+}
+
+.theme-sky {   /* 天蓝 · 清爽 */
+  --brand: #5CB3E6;
+  --brand-2: #8FD1F5;
+  --brand-deep: #3E93C7;
+  --brand-text: #176A96;
+  --brand-ink: #0A3B55;
+  --brand-soft: #E8F4FD;
+  --brand-soft-2: #DDF0FC;
+  --brand-shadow: rgba(62,147,199,0.32);
+  --bg: #F4F9FC;
+  --card: #FFFFFF;
+  --line: #E3EFF6;
+  --text-1: #16242B;
+  --text-2: #4C5A63;
+  --text-3: #97A6B0;
+  --arrow: #BFD0DA;
+  --fill: #ECF2F6;
+  --fill-2: #F3F8FB;
+  --ink-85: rgba(10,59,85,0.85);
+  --ink-62: rgba(10,59,85,0.62);
+  --ink-55: rgba(10,59,85,0.55);
+  --ink-45: rgba(10,59,85,0.45);
+  --ink-35: rgba(10,59,85,0.35);
+  --ink-16: rgba(10,59,85,0.16);
+}
+
+.theme-military {   /* 军绿 · 沉稳 */
+  --brand: #74874F;
+  --brand-2: #94A574;
+  --brand-deep: #5E7040;
+  --brand-text: #4C5C33;
+  --brand-ink: #1E2614;
+  --brand-soft: #EFF3E2;
+  --brand-soft-2: #E7EDD6;
+  --brand-shadow: rgba(94,112,64,0.32);
+  --bg: #F6F8F0;
+  --card: #FFFFFF;
+  --line: #E5EAD9;
+  --text-1: #1E2217;
+  --text-2: #4E5344;
+  --text-3: #9AA189;
+  --arrow: #C2C9B2;
+  --fill: #EFEFE7;
+  --fill-2: #F4F5EC;
+  --ink-85: rgba(30,38,20,0.85);
+  --ink-62: rgba(30,38,20,0.62);
+  --ink-55: rgba(30,38,20,0.55);
+  --ink-45: rgba(30,38,20,0.45);
+  --ink-35: rgba(30,38,20,0.35);
+  --ink-16: rgba(30,38,20,0.16);
+}
+
+.theme-burgundy {   /* 酒红 · 浓郁 */
+  --brand: #8E2F3C;
+  --brand-2: #A95260;
+  --brand-deep: #74232C;
+  --brand-text: #8E2F3C;
+  --brand-ink: #FFF6F5;
+  --brand-soft: #F9EAEC;
+  --brand-soft-2: #F3DDE0;
+  --brand-shadow: rgba(116,35,44,0.32);
+  --bg: #FAF6F6;
+  --card: #FFFFFF;
+  --line: #F1E2E4;
+  --text-1: #241A1B;
+  --text-2: #5A4A4C;
+  --text-3: #A99094;
+  --arrow: #DCC4C7;
+  --fill: #F3EBEC;
+  --fill-2: #F8F1F2;
+  --ink-85: rgba(255,246,245,0.85);
+  --ink-62: rgba(255,246,245,0.62);
+  --ink-55: rgba(255,246,245,0.55);
+  --ink-45: rgba(255,246,245,0.45);
+  --ink-35: rgba(255,246,245,0.35);
+  --ink-16: rgba(255,246,245,0.16);
+}
+
+.theme-limestone {   /* 石灰灰 · 素净 */
+  --brand: #A8A294;
+  --brand-2: #C8C2B4;
+  --brand-deep: #8B8578;
+  --brand-text: #6C675D;
+  --brand-ink: #2A2823;
+  --brand-soft: #F2F0EA;
+  --brand-soft-2: #EAE7DF;
+  --brand-shadow: rgba(139,133,120,0.32);
+  --bg: #F7F6F2;
+  --card: #FFFFFF;
+  --line: #E7E4DC;
+  --text-1: #22211D;
+  --text-2: #55534C;
+  --text-3: #A09C91;
+  --arrow: #C8C3B6;
+  --fill: #F0EFE9;
+  --fill-2: #F5F4EF;
+  --ink-85: rgba(42,40,35,0.85);
+  --ink-62: rgba(42,40,35,0.62);
+  --ink-55: rgba(42,40,35,0.55);
+  --ink-45: rgba(42,40,35,0.45);
+  --ink-35: rgba(42,40,35,0.35);
+  --ink-16: rgba(42,40,35,0.16);
+}
+
+.theme-purple {   /* 紫 · 个性 */
+  --brand: #7B5AD8;
+  --brand-2: #9F86EE;
+  --brand-deep: #6547BC;
+  --brand-text: #5C3FB0;
+  --brand-ink: #FDFBFF;
+  --brand-soft: #F1ECFD;
+  --brand-soft-2: #EAE2FB;
+  --brand-shadow: rgba(101,71,188,0.32);
+  --bg: #F8F6FE;
+  --card: #FFFFFF;
+  --line: #EBE5F8;
+  --text-1: #201B2C;
+  --text-2: #544D66;
+  --text-3: #9E96B4;
+  --arrow: #CFC7E4;
+  --fill: #F1EEF7;
+  --fill-2: #F6F3FC;
+  --ink-85: rgba(253,251,255,0.85);
+  --ink-62: rgba(253,251,255,0.62);
+  --ink-55: rgba(253,251,255,0.55);
+  --ink-45: rgba(253,251,255,0.45);
+  --ink-35: rgba(253,251,255,0.35);
+  --ink-16: rgba(253,251,255,0.16);
+}
+/* @theme-classes:end */
+
+.page {
+  padding: 24rpx 24rpx 60rpx;
+  /* 铺满整屏，换主题时页面底色跟着变；内容更长时可正常滚动 */
+  min-height: 100vh;
+  box-sizing: border-box;
+  background: var(--bg);
+}
+
+/* ---------- 通用卡片 ---------- */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(31, 27, 12, 0.04);
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 20rpx;
+}
+
+.card-title .sub {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: var(--text-3);
+  margin-left: 12rpx;
+}
+
+/* ---------- 空状态 ---------- */
+.empty {
+  padding: 120rpx 40rpx;
+  text-align: center;
+}
+.empty-icon {
+  font-size: 80rpx;
+  display: block;
+  margin-bottom: 24rpx;
+  opacity: 0.6;
+}
+.empty-text {
+  font-size: 28rpx;
+  color: var(--text-3);
+}
+
+/* ---------- 按钮 ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 72rpx;
+  padding: 0 32rpx;
+  border-radius: 36rpx;
+  font-size: 26rpx;
+  border: none;
+}
+.btn::after {
+  border: none;
+}
+.btn-primary {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+.btn-ghost {
+  background: var(--fill);
+  color: var(--text-2);
+}
+
+/* ---------- 数值强调 ---------- */
+.num {
+  font-size: 56rpx;
+  font-weight: 700;
+  letter-spacing: -1rpx;
+  font-variant-numeric: tabular-nums;
+}
+.num-unit {
+  font-size: 24rpx;
+  font-weight: 400;
+  color: var(--text-3);
+  margin-left: 6rpx;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ---------- 分享入口条（打卡页 / 统计页共用） ---------- */
+.share-entry {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, var(--brand-2), var(--brand));
+  border-radius: 20rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 22rpx var(--brand-shadow);
+}
+.share-entry-ic {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+.share-entry-bd {
+  flex: 1;
+}
+.share-entry-t {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--brand-ink);
+}
+.share-entry-d {
+  font-size: 22rpx;
+  color: var(--ink-62);
+  margin-top: 4rpx;
+}
+.share-entry-ar {
+  font-size: 40rpx;
+  color: var(--ink-55);
+  line-height: 1;
+}
+
+/* ---------- 通用入口条（白底，与彩色分享条区分） ---------- */
+.entry {
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border-radius: 20rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(31, 27, 12, 0.04);
+}
+.entry-ic {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 18rpx;
+  background: var(--brand-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34rpx;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+.entry-bd {
+  flex: 1;
+}
+.entry-t {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-1);
+}
+.entry-d {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 4rpx;
+}
+.entry-ar {
+  font-size: 40rpx;
+  color: var(--text-3);
+  line-height: 1;
+}

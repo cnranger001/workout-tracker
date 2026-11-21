@@ -1,0 +1,141 @@
+/* ---------- 概览 ---------- */
+.ov {
+  display: flex;
+}
+.ov-item {
+  flex: 1;
+  text-align: center;
+  padding: 12rpx 0;
+}
+.ov-item + .ov-item {
+  border-left: 2rpx solid var(--line);
+}
+.ov-num {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: var(--brand-text);
+  font-variant-numeric: tabular-nums;
+}
+.ov-label {
+  font-size: 24rpx;
+  color: var(--text-3);
+  margin-top: 4rpx;
+}
+
+/* ---------- 说明 ---------- */
+.tip {
+  font-size: 24rpx;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+
+/* ---------- 文本框 ---------- */
+.ta {
+  width: 100%;
+  box-sizing: border-box;
+  height: 260rpx;
+  background: var(--fill-2);
+  border: 2rpx solid var(--line);
+  border-radius: 14rpx;
+  padding: 20rpx;
+  font-size: 22rpx;
+  line-height: 1.5;
+  color: var(--text-2);
+  font-family: "SFMono-Regular", Menlo, Consolas, monospace;
+  word-break: break-all;
+}
+.ta-in {
+  height: 200rpx;
+  background: #FFFFFF;
+}
+.ta-placeholder {
+  color: var(--text-3);
+}
+
+.ta-empty {
+  padding: 40rpx 0;
+  text-align: center;
+}
+.ta-empty-ic {
+  font-size: 60rpx;
+  display: block;
+  margin-bottom: 16rpx;
+  opacity: 0.6;
+}
+.ta-empty-t {
+  font-size: 26rpx;
+  color: var(--text-3);
+}
+
+/* ---------- 状态行 ---------- */
+.code-line {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-bottom: 12rpx;
+}
+
+/* ---------- 合并 / 覆盖 切换 ---------- */
+.seg {
+  display: flex;
+  background: var(--fill);
+  border-radius: 32rpx;
+  padding: 6rpx;
+  margin: 20rpx 0 16rpx;
+}
+.seg-item {
+  flex: 1;
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--text-2);
+  padding: 14rpx 0;
+  border-radius: 28rpx;
+}
+.seg-item.on {
+  background: #FFFFFF;
+  color: var(--brand-text);
+  font-weight: 600;
+  box-shadow: 0 2rpx 10rpx rgba(31, 27, 12, 0.06);
+}
+
+/* ---------- 解析结果 ---------- */
+.parse-line {
+  font-size: 24rpx;
+  padding: 16rpx 20rpx;
+  border-radius: 12rpx;
+  margin-bottom: 20rpx;
+  line-height: 1.5;
+}
+.parse-line.ok {
+  background: #E8F8F1;
+  color: #12805C;
+}
+.parse-line.err {
+  background: #FDECEC;
+  color: #C2373A;
+}
+
+/* ---------- 按钮 ---------- */
+.btn-row {
+  display: flex;
+}
+.btn-flex {
+  flex: 1;
+}
+.btn-flex + .btn-flex {
+  margin-left: 16rpx;
+}
+.btn-block {
+  display: flex;
+  width: 100%;
+}
+.btn.disabled {
+  opacity: 0.45;
+}
+.foot-tip {
+  font-size: 22rpx;
+  color: var(--text-3);
+  text-align: center;
+  margin-top: 16rpx;
+  line-height: 1.6;
+}

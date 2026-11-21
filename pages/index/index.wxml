@@ -1,0 +1,182 @@
+<view class="page {{themeClass}}">
+
+  <!-- 日期栏 -->
+  <view class="date-bar">
+    <view class="date-arrow" bindtap="prevDay">‹</view>
+    <view class="date-main" bindtap="backToday">
+      <text class="date-text">{{dateLabel}}</text>
+      <text class="date-tag" wx:if="{{isToday}}">今天</text>
+      <text class="date-tag back" wx:else>回到今天</text>
+    </view>
+    <view class="date-arrow {{canNext ? '' : 'disabled'}}" bindtap="nextDay">›</view>
+  </view>
+
+  <!-- 项目分组 tab：每个分组一个 tab，选中后下方只显示该分组的项目 -->
+  <scroll-view class="group-tabs" scroll-x enable-flex wx:if="{{showGroupTabs}}">
+    <view class="group-tab {{item.active ? 'on' : ''}}" wx:for="{{groupTabs}}" wx:key="id" data-id="{{item.id}}" bindtap="onGroupTab">
+      <text>{{item.name}}</text>
+      <text class="group-tab-n" wx:if="{{item.count > 0}}">{{item.count}}</text>
+    </view>
+  </scroll-view>
+  <view class="group-note" wx:if="{{groupNote}}">顶部概览为全天全部项目合计，下方只显示所选分组</view>
+
+  <!-- 今日概览 -->
+  <view class="hero">
+    <view class="hero-left">
+      <view class="hero-label">当日总重量</view>
+      <view class="hero-num {{dayWeightTon ? 'ton' : ''}}">{{dayWeightText}}<text class="hero-unit">{{dayWeightUnit}}</text></view>
+      <view class="hero-weight">
+        <text class="hero-weight-label">当日总次数</text>
+        <text class="hero-weight-num">{{dayTotal}}<text class="hero-weight-unit">次</text></text>
+      </view>
+      <view class="hero-sub">已完成 {{setCount}} 组 · {{weightHint}}</view>
+      <view class="rank-tip" wx:if="{{rankTip}}">{{rankTip}}</view>
+    </view>
+    <view class="hero-right">
+      <view class="hero-ring">
+        <view class="ring-num" wx:if="{{rank}}"><text class="ring-pre">第</text>{{rank.rank}}</view>
+        <view class="ring-num ring-none" wx:else>—</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 当前分组没有项目时的空态 -->
+  <view class="empty" wx:if="{{noExercises}}">
+    <text class="empty-icon">☆</text>
+    <text class="empty-text">{{emptyText}}</text>
+    <view class="btn btn-primary empty-btn" wx:if="{{showAllBtn}}" bindtap="showAllGroups">查看全部项目</view>
+    <view class="btn btn-primary empty-btn" wx:else bindtap="goExercise">去添加项目</view>
+  </view>
+
+  <!-- 运动卡片：第一行 = 大图标 + 名称·训练量/排名 + 部位 / 负重，第二行 = 次数拨轮 + 组数·次数 + 对号 -->
+  <view class="ex-card" wx:for="{{cards}}" wx:key="key">
+
+    <!-- 头部：图标占左侧；右侧 名称与训练量/排名同一行，下面接部位和负重输入框 -->
+    <view class="ex-head" data-type="{{item.key}}" bindtap="toggleSets">
+      <view class="ex-iconbox" style="background: {{item.soft}};">
+        <image wx:if="{{item.iconPath}}" class="ex-icon-img" src="{{item.iconPath}}" mode="aspectFit" />
+        <text wx:else class="ex-icon">{{item.icon}}</text>
+      </view>
+      <view class="ex-bd">
+        <!-- 项目名在左；当天训练量和历史排名贴上右边，和项目名对齐 -->
+        <view class="ex-line">
+          <text class="ex-name">{{item.name}}<text wx:if="{{item.isLatest && cards.length > 1}}" class="ex-latest">最近</text></text>
+          <view class="ex-line-stat" wx:if="{{item.setList.length > 0}}">
+            <text class="ex-load" wx:if="{{item.load > 0}}">{{item.loadText}}</text>
+            <text class="ex-rank" wx:if="{{item.loadRankText}}">{{item.loadRankText}}</text>
+          </view>
+        </view>
+        <!-- 训练部位：紧跟在名称正下方 -->
+        <text class="ex-desc" wx:if="{{item.desc}}">{{item.desc}}</text>
+        <!-- 负重：点输入框不要连带展开分组明细 -->
+        <view class="weight-row" catchtap="noop">
+          <text class="best-hint {{item.gapTone}}" wx:if="{{item.bestHint}}">{{item.bestHint}}</text>
+          <text class="weight-label">负重</text>
+          <view class="weight-control">
+            <input
+              class="weight-input"
+              type="digit"
+              maxlength="6"
+              placeholder="0"
+              value="{{item.weight}}"
+              data-type="{{item.key}}"
+              bindinput="onCardWeightInput"
+            />
+            <text class="weight-unit">kg</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 第三行：次数水平拨轮（窄版）+ 右侧 组数·次数·训练量（点一下展开）+ 对号记一组 -->
+    <view class="log-row">
+      <view class="wheel"
+        data-type="{{item.key}}"
+        bindtouchstart="onWheelStart"
+        catchtouchmove="onWheelMove"
+        bindtouchend="onWheelEnd"
+        bindtouchcancel="onWheelEnd">
+        <view class="wheel-window"></view>
+        <view class="wheel-track" style="{{item.wheelStyle}}">
+          <view class="wheel-item lv{{it.lv}}" wx:for="{{item.wheelItems}}" wx:for-item="it" wx:key="id">{{it.t}}</view>
+        </view>
+        <view class="wheel-fade left"></view>
+        <view class="wheel-fade right"></view>
+      </view>
+
+      <view class="ex-meta" data-type="{{item.key}}" bindtap="toggleSets" wx:if="{{item.setList.length > 0}}">
+        <text class="ex-meta-t">{{item.setList.length}}组 · {{item.done}}次</text>
+        <view class="ex-meta-ic {{item.expanded ? 'open' : ''}}"></view>
+      </view>
+
+      <view class="check-btn" data-type="{{item.key}}" bindtap="logSet">
+        <view class="check-ico"></view>
+      </view>
+    </view>
+
+    <!-- 展开后：每行两个，每个组一行文字 -->
+    <view class="set-list" wx:if="{{item.expanded && item.setList.length > 0}}">
+      <view class="set-row" wx:for="{{item.setList}}" wx:for-item="s" wx:key="id">
+        <text class="set-index">第{{s.index}}组</text>
+        <text class="set-weight" wx:if="{{s.weight > 0}}" style="color: {{item.color}};">{{s.weight}}kg</text>
+        <text class="set-reps">{{s.reps}}次</text>
+        <text class="set-time">{{s.time}}</text>
+        <text class="set-del" data-id="{{s.id}}" bindtap="deleteSet">×</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分享入口 -->
+  <view class="share-entry" bindtap="goShare">
+    <view class="share-entry-ic">📣</view>
+    <view class="share-entry-bd">
+      <view class="share-entry-t">生成分享卡</view>
+      <view class="share-entry-d">把当前日期的成绩发到朋友圈</view>
+    </view>
+    <view class="share-entry-ar">›</view>
+  </view>
+
+  <!-- 备份入口 -->
+  <view class="entry" bindtap="goBackup">
+    <view class="entry-ic">💾</view>
+    <view class="entry-bd">
+      <view class="entry-t">备份与恢复</view>
+      <view class="entry-d">清缓存 / 换手机不丢数据</view>
+    </view>
+    <view class="entry-ar">›</view>
+  </view>
+
+  <view class="foot-tip">数据保存在本机，换设备不会同步，记得定期备份</view>
+</view>
+
+<!-- 自定义输入弹窗 -->
+<view class="mask {{showModal ? 'show' : ''}}" bindtap="closeModal" wx:if="{{showModal}}">
+  <view class="modal" catchtap="noop">
+    <view class="modal-head">
+      <image wx:if="{{modalIconPath}}" class="modal-icon-img" src="{{modalIconPath}}" mode="aspectFit" />
+      <text wx:else class="modal-icon">{{modalIcon}}</text>
+      <text class="modal-title">添加{{modalName}}</text>
+    </view>
+    <view class="field">
+      <text class="field-label">次数</text>
+      <input class="field-input" type="number" placeholder="例如 15" value="{{inputReps}}" focus="{{showModal}}" bindinput="onRepsInput" />
+      <text class="field-unit">次</text>
+    </view>
+    <view class="field">
+      <text class="field-label">负重</text>
+      <input class="field-input" type="digit" placeholder="可不填" value="{{inputWeight}}" bindinput="onWeightInput" />
+      <text class="field-unit">kg</text>
+    </view>
+    <view class="modal-best" wx:if="{{modalBestHint}}">{{modalBestHint}}</view>
+    <view class="modal-btns">
+      <view class="modal-btn cancel" bindtap="closeModal">取消</view>
+      <view class="modal-btn ok" bindtap="confirmModal">添加</view>
+    </view>
+  </view>
+</view>
+
+<!-- 记录成功时的撒花：纯装饰，盖在最上层但不拦任何点击 -->
+<view class="confetti-layer" wx:if="{{confetti.length > 0}}">
+  <view class="confetti-bit" wx:for="{{confetti}}" wx:key="id" style="{{item.style}}"></view>
+  <view class="confetti-word">已记录一组</view>
+</view>

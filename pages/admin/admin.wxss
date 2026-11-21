@@ -1,0 +1,258 @@
+/* ---------------- 口令门禁 ---------------- */
+.gate {
+  text-align: center;
+  padding: 56rpx 32rpx 40rpx;
+}
+.gate-ic {
+  font-size: 64rpx;
+  margin-bottom: 16rpx;
+}
+.gate-t {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-1);
+}
+.gate-d {
+  font-size: 24rpx;
+  color: var(--text-3);
+  margin-top: 12rpx;
+  line-height: 1.6;
+}
+.gate-input {
+  margin: 32rpx 0 24rpx;
+  background: var(--fill-2);
+  border-radius: 16rpx;
+  padding: 22rpx 24rpx;
+  font-size: 28rpx;
+  text-align: center;
+}
+.gate-ph {
+  color: var(--text-3);
+}
+.gate-tip {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 20rpx;
+}
+
+/* ---------------- 错误 ---------------- */
+.err-line {
+  font-size: 26rpx;
+  color: #E5484D;
+  line-height: 1.6;
+  margin-bottom: 20rpx;
+}
+
+/* ---------------- KPI ---------------- */
+.kpi {
+  display: flex;
+}
+.kpi-cell {
+  flex: 1;
+  text-align: center;
+  padding: 12rpx 0;
+}
+.kpi-n {
+  font-size: 46rpx;
+  font-weight: 700;
+  color: var(--text-1);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.kpi-n2 {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+.kpi-l {
+  font-size: 21rpx;
+  color: var(--text-3);
+  margin-top: 8rpx;
+}
+.kpi-sub {
+  border-top: 2rpx solid var(--line);
+  margin-top: 8rpx;
+}
+
+/* ---------------- 图表 ---------------- */
+.legend {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16rpx;
+}
+.lg {
+  display: flex;
+  align-items: center;
+  font-size: 21rpx;
+  color: var(--text-3);
+  margin-left: 20rpx;
+}
+.lg-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 4rpx;
+  margin-right: 8rpx;
+}
+.lg-dot.new {
+  background: var(--brand);
+}
+.lg-dot.ret {
+  background: var(--brand-soft-2);
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  height: 300rpx;
+  padding-top: 8rpx;
+}
+.bar-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+}
+.bar-top {
+  font-size: 18rpx;
+  color: var(--text-3);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+  margin-bottom: 4rpx;
+}
+.bar-wrap {
+  width: 60%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border-bottom: 2rpx solid var(--line);
+}
+.bar {
+  width: 100%;
+  min-height: 0;
+}
+.bar.ret {
+  background: var(--brand-soft-2);
+  border-radius: 4rpx 4rpx 0 0;
+}
+.bar.new {
+  background: var(--brand);
+  border-radius: 0 0 4rpx 4rpx;
+}
+.bar-label {
+  font-size: 19rpx;
+  color: var(--text-3);
+  margin-top: 8rpx;
+  font-variant-numeric: tabular-nums;
+}
+.chart-foot {
+  font-size: 21rpx;
+  color: var(--text-3);
+  margin-top: 14rpx;
+}
+
+/* ---------------- 平台分布 ---------------- */
+.pf-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+.pf-row:last-child {
+  margin-bottom: 0;
+}
+.pf-name {
+  width: 200rpx;
+  font-size: 24rpx;
+  color: var(--text-2);
+  flex-shrink: 0;
+}
+.pf-bar {
+  flex: 1;
+  height: 16rpx;
+  background: var(--fill);
+  border-radius: 8rpx;
+  overflow: hidden;
+}
+.pf-fill {
+  height: 100%;
+  background: var(--brand);
+  border-radius: 8rpx;
+}
+.pf-n {
+  width: 70rpx;
+  text-align: right;
+  font-size: 24rpx;
+  color: var(--text-1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------- 说明 ---------------- */
+.note {
+  display: flex;
+  margin-bottom: 16rpx;
+}
+.note:last-child {
+  margin-bottom: 0;
+}
+.note-k {
+  width: 110rpx;
+  flex-shrink: 0;
+  font-size: 23rpx;
+  color: var(--text-3);
+}
+.note-v {
+  flex: 1;
+  font-size: 23rpx;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+
+/* ---------------- 开关 ---------------- */
+.sw-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.sw-bd {
+  flex: 1;
+  padding-right: 20rpx;
+}
+.sw-t {
+  font-size: 28rpx;
+  color: var(--text-1);
+}
+.sw-d {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 4rpx;
+}
+
+/* ---------------- 按钮组与页脚（本页私有，未复用全局） ---------------- */
+.btn-row {
+  display: flex;
+  align-items: center;
+  margin-top: 24rpx;
+}
+.btn-flex {
+  flex: 1;
+  margin-right: 20rpx;
+}
+.btn-flex:last-child {
+  margin-right: 0;
+}
+.btn-block {
+  display: block;
+  width: 100%;
+  margin-top: 24rpx;
+}
+.foot-tip {
+  margin-top: 20rpx;
+  font-size: 22rpx;
+  color: var(--text-3);
+  text-align: center;
+  line-height: 1.6;
+}
