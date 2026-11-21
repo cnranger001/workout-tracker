@@ -10,11 +10,11 @@ const COLLECTION = 'users'
 const SERIES_DAYS = 14
 
 /* ============================================================
-   ⚠️ 部署前必须改这一行：换成你自己的口令
-   只有携带正确口令的请求才会返回数据，这是唯一真正的门禁。
-   改完记得右键 adminStats →「上传并部署：云端安装依赖」
+   管理口令只从云函数环境变量 ADMIN_TOKEN 读取，绝不写进代码。
+   在云开发控制台给 adminStats 配置环境变量后，右键「上传并部署」。
+   没配置（或还是 CHANGE_ME）时，所有请求一律拒绝。
    ============================================================ */
-const ADMIN_TOKEN = 'bigben001'
+const ADMIN_TOKEN = String(process.env.ADMIN_TOKEN || '').trim()
 
 function day(offset) {
   const t = Date.now() + (offset || 0) * 86400000 + 8 * 3600000
@@ -46,7 +46,7 @@ exports.main = async (event) => {
   event = event || {}
 
   if (!ADMIN_TOKEN || ADMIN_TOKEN.indexOf('CHANGE_ME') >= 0) {
-    return { ok: false, reason: '还没设置管理口令：请改云函数里的 ADMIN_TOKEN 并重新部署' }
+    return { ok: false, reason: '还没设置管理口令：请在云函数 adminStats 的环境变量里配置 ADMIN_TOKEN 并重新部署' }
   }
   if (String(event.token || '') !== ADMIN_TOKEN) {
     return { ok: false, reason: '口令不正确' }

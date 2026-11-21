@@ -4,7 +4,7 @@
   <view wx:if="{{!authed}}" class="card gate">
     <view class="gate-ic">🔒</view>
     <view class="gate-t">管理入口</view>
-    <view class="gate-d">仅开发者本人使用。请输入云函数里设置的 ADMIN_TOKEN。</view>
+    <view class="gate-d">仅开发者本人使用。请输入云函数环境变量 ADMIN_TOKEN 中配置的口令。</view>
     <input
       class="gate-input"
       password
