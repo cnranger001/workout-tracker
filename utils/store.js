@@ -1428,6 +1428,20 @@ function getBestWeight(key) {
   return Number(getAllBestWeights()[key]) || 0
 }
 
+/** 自重项目的历史最佳「单日总次数」，直接从记录算，不需要额外的存储键 */
+function bestRepsOf(key) {
+  if (!key) return 0
+  const all = getAll()
+  let best = 0
+  Object.keys(all).forEach(function (d) {
+    const sum = (all[d] || []).reduce(function (a, s) {
+      return s.type === key ? a + Math.max(0, Number(s.reps) || 0) : a
+    }, 0)
+    if (sum > best) best = sum
+  })
+  return Math.round(best)
+}
+
 /** 记一组时顺手刷新纪录（只增不减，删记录不会把个人最好成绩抹掉） */
 function noteBestWeight(key, weight) {
   if (!key) return
@@ -1533,6 +1547,11 @@ function bodyweightRatio(ex) {
   return defaultBodyweightRatio(ex)
 }
 
+/** 自重项目：训练成绩按次数算（引体向上、俯卧撑等），不按负重 kg */
+function isBodyweightExercise(ex) {
+  return bodyweightRatio(ex) > 0
+}
+
 /** 单组训练量：(额外负重 + 体重 × 自重比例) × 次数 */
 function estimateSetLoad(set, ex, bodyWeight) {
   const reps = Math.max(0, Number(set && set.reps) || 0)
@@ -1552,34 +1571,61 @@ function totalWeightOfDay(date) {
 }
 
 /**
- * 某天相对此前历史的「单项负重」破纪录项目。
- * 返回 [{ key, name, weight }]：weight > 0 表示刷新了该项目的单次负重纪录（kg）。
+ * 某天相对此前历史的破纪录项目。
+ * 负重项目比「单组最高负重」；自重项目（比例 > 0）比「单日总次数」。
+ * 返回 [{ key, name, kind, weight, reps }]：
+ *   kind='weight' 时 weight > 0；kind='reps' 时 reps > 0。
  * 只比较 date 之前的记录，重看历史某天时不会被那天之后的成绩影响。
  */
 function recordBreaksOfDay(date) {
   const all = getAll()
   const exercises = getExerciseMap()
   const beforeWeight = {}
+  const beforeReps = {}
   const day = String(date || '')
 
+  /* 自重项目要先按天汇总次数，再取历史最好的那一天 */
+  const repsByDay = {}
+  Object.keys(all).forEach(function (d) {
+    if (!d || d >= day) return
+    repsByDay[d] = {}
+    ;(all[d] || []).forEach(function (set) {
+      const k = set.type
+      if (!k || !isBodyweightExercise(exercises[k])) return
+      repsByDay[d][k] = (repsByDay[d][k] || 0) + Math.max(0, Number(set.reps) || 0)
+    })
+  })
+  Object.keys(repsByDay).forEach(function (d) {
+    Object.keys(repsByDay[d]).forEach(function (k) {
+      if (repsByDay[d][k] > (beforeReps[k] || 0)) beforeReps[k] = repsByDay[d][k]
+    })
+  })
+
+  /* 负重项目：取 date 之前每组的最高负重 */
   Object.keys(all).forEach(function (d) {
     if (!d || d >= day) return
     ;(all[d] || []).forEach(function (set) {
       const k = set.type
-      if (!k) return
+      if (!k || isBodyweightExercise(exercises[k])) return
       const w = Math.round((Number(set.weight) || 0) * 10) / 10
       if (w > (beforeWeight[k] || 0)) beforeWeight[k] = w
     })
   })
 
   const todayWeight = {}
+  const todayReps = {}
   const order = []
   ;(all[day] || []).forEach(function (set) {
     const k = set.type
     if (!k) return
     if (!(k in todayWeight)) {
       todayWeight[k] = 0
+      todayReps[k] = 0
       order.push(k)
+    }
+    if (isBodyweightExercise(exercises[k])) {
+      todayReps[k] += Math.max(0, Number(set.reps) || 0)
+      return
     }
     const w = Math.round((Number(set.weight) || 0) * 10) / 10
     if (w > todayWeight[k]) todayWeight[k] = w
@@ -1587,12 +1633,13 @@ function recordBreaksOfDay(date) {
 
   const out = []
   order.forEach(function (k) {
-    if (todayWeight[k] <= (beforeWeight[k] || 0)) return
-    out.push({
-      key: k,
-      name: (exercises[k] && exercises[k].name) || k,
-      weight: todayWeight[k]
-    })
+    const bw = isBodyweightExercise(exercises[k])
+    const name = (exercises[k] && exercises[k].name) || k
+    if (bw && todayReps[k] > (beforeReps[k] || 0)) {
+      out.push({ key: k, name: name, kind: 'reps', weight: 0, reps: Math.round(todayReps[k]) })
+    } else if (!bw && todayWeight[k] > (beforeWeight[k] || 0)) {
+      out.push({ key: k, name: name, kind: 'weight', weight: todayWeight[k], reps: 0 })
+    }
   })
   return out
 }
@@ -1817,45 +1864,53 @@ function dayLoadRank(date) {
 }
 
 /**
- * 某个项目的单日训练量，在「这个项目所有有记录的日子」里排第几（1 = 最高）。
- * 打卡页每个项目卡片用它标出历史排名和追上更前一名还差多少 kg。
- * 同日多组累加；gapKg 口径与 dayLoadRank 一致：向上取整、至少 1。
+ * 某个项目的单日成绩在「这个项目所有有记录的日子」里排第几（1 = 最高）。
+ * 自重项目按当天总次数排名，其他项目按当天训练量 kg 排名。
+ * 同日多组累加；gap 口径与 dayLoadRank 一致：向上取整、至少 1。
  */
 function exerciseLoadRank(date, key) {
   if (!key) return null
   const all = getAll()
   const exercises = getExerciseMap()
+  const ex = exercises[key] || {}
+  const bw = isBodyweightExercise(ex)
   const bodyWeight = getProfile().weight
   const days = []
 
   Object.keys(all).forEach(function (d) {
-    const kg = (all[d] || []).reduce(function (a, s) {
+    const v = (all[d] || []).reduce(function (a, s) {
       if (s.type !== key) return a
-      return a + estimateSetLoad(s, exercises[key], bodyWeight)
+      if (bw) return a + Math.max(0, Number(s.reps) || 0)
+      return a + estimateSetLoad(s, ex, bodyWeight)
     }, 0)
-    if (kg > 0) days.push({ date: d, kg: Math.round(kg * 10) / 10 })
+    if (v > 0) days.push({ date: d, v: Math.round(v * 10) / 10 })
   })
   if (!days.length) return null
 
   const mine = days.filter(function (x) { return x.date === date })[0]
-  if (!mine || mine.kg <= 0) return null
+  if (!mine || mine.v <= 0) return null
 
   let higher = 0
-  let prevKg = 0
+  let prev = 0
   days.forEach(function (x) {
     if (x.date === date) return
-    if (x.kg > mine.kg) {
+    if (x.v > mine.v) {
       higher++
-      if (!prevKg || x.kg < prevKg) prevKg = x.kg
+      if (!prev || x.v < prev) prev = x.v
     }
   })
 
+  const gap = higher > 0 ? Math.max(1, Math.ceil(prev - mine.v)) : 0
   return {
     rank: higher + 1,
     days: days.length,
-    kg: mine.kg,
-    prevKg: prevKg,
-    gapKg: higher > 0 ? Math.max(1, Math.ceil(prevKg - mine.kg)) : 0
+    unit: bw ? 'reps' : 'kg',
+    value: mine.v,
+    prev: prev,
+    gap: gap,
+    /* 兼容旧字段名 */
+    kg: bw ? 0 : mine.v,
+    gapKg: bw ? 0 : gap
   }
 }
 
@@ -2530,6 +2585,7 @@ module.exports = {
   dropLastWeight: dropLastWeight,
   getAllBestWeights: getAllBestWeights,
   getBestWeight: getBestWeight,
+  bestRepsOf: bestRepsOf,
   noteBestWeight: noteBestWeight,
   rebuildBestWeights: rebuildBestWeights,
   sumOfDay: sumOfDay,
@@ -2537,6 +2593,7 @@ module.exports = {
   defaultBodyweightRatio: defaultBodyweightRatio,
   hasCustomBodyweightRatio: hasCustomBodyweightRatio,
   bodyweightRatio: bodyweightRatio,
+  isBodyweightExercise: isBodyweightExercise,
   estimateSetLoad: estimateSetLoad,
   totalWeightOfDay: totalWeightOfDay,
   recordBreaksOfDay: recordBreaksOfDay,
