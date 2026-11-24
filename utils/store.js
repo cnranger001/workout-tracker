@@ -33,7 +33,11 @@ const BUILTIN = [
   /* 坐/卧 弯腿举：俯卧/坐姿屈膝把配重拉向臀部，练腘绳肌；器械动作不自重折算 */
   { key: 'legcurl', name: '坐/卧 弯腿举', emoji: '🦵', icon: 'legcurl', color: '#F2637B', soft: '#FDEAEE', desc: '下肢 · 腘绳肌', goal: 30 },
   /* 倒蹬机：坐姿腿举，身体重量由座椅承担，只算器械配重（全新项目，无历史数据） */
-  { key: 'legpress', name: '倒蹬机', emoji: '🦵', icon: 'legpress', color: '#06B6D4', soft: '#E4F6FA', desc: '下肢 · 股四头肌', goal: 40 }
+  { key: 'legpress', name: '倒蹬机', emoji: '🦵', icon: 'legpress', color: '#06B6D4', soft: '#E4F6FA', desc: '下肢 · 股四头肌', goal: 40 },
+  /* 卧推与下拉类：负重来自杠铃 / 哑铃 / 器械配重，自重比例按 0% 处理 */
+  { key: 'dbbench', name: '哑铃卧推', emoji: '🏋️', icon: 'dbbench', color: '#8B5CF6', soft: '#F1EBFE', desc: '胸部 · 胸大肌', goal: 20 },
+  { key: 'benchpress', name: '杠铃卧推', emoji: '🏋️', icon: 'benchpress', color: '#E3A800', soft: '#FFF3C9', desc: '胸部 · 胸大肌', goal: 20 },
+  { key: 'pulldown', name: '高位下拉', emoji: '🏋️', icon: 'pulldown', color: '#06B6D4', soft: '#E4F6FA', desc: '背部 · 背阔肌', goal: 30 }
 ]
 
 /** 自定义项目可选图标 */
@@ -53,6 +57,7 @@ const ICON_FILES = {
   squat: '/images/ex-squat.png',
   deadlift: '/images/ex-deadlift.png',
   benchpress: '/images/ex-benchpress.png',
+  dbbench: '/images/ex-dbbench.png',
   dbpress: '/images/ex-dbpress.png',
   pulldown: '/images/ex-pulldown.png',
   cablerow: '/images/ex-cablerow.png',
@@ -84,7 +89,7 @@ const ICON_ALIAS = { row: 'cablerow' }
 /** 图标令牌 → 中文名，选择器里做无障碍描述 */
 const ICON_NAMES = {
   pushup: '俯卧撑', pullup: '引体向上', dips: '双杠臂屈伸', hangleg: '单杠提腿', squat: '深蹲', deadlift: '硬拉',
-  benchpress: '卧推', dbpress: '坐姿哑铃推举', pulldown: '高位下拉', cablerow: '坐姿划船',
+  benchpress: '卧推', dbbench: '哑铃卧推', dbpress: '坐姿哑铃推举', pulldown: '高位下拉', cablerow: '坐姿划船',
   legpress: '倒蹬', legext: '腿屈伸', legcurl: '腿弯举', backext: '山羊挺身',
   curl: '弯举', pushdown: '绳索下压', bike: '坐姿单车', plank: '平板支撑',
   bulgarian: '保加利亚深蹲', lateral: '侧平举', hipbridge: '臀推', lunge: '箭步蹲',
@@ -101,7 +106,7 @@ const ICON_NAMES = {
 const MUSCLE_BY_ICON = {
   pushup: '上肢 · 胸肩三头', pullup: '背部 · 肱二头肌', dips: '上肢 · 胸肩三头',
   hangleg: '核心 · 下腹', squat: '下肢 · 股四头肌', deadlift: '背部 · 后链',
-  benchpress: '胸部 · 胸大肌', dbpress: '肩部 · 三角肌', pulldown: '背部 · 背阔肌',
+  benchpress: '胸部 · 胸大肌', dbbench: '胸部 · 胸大肌', dbpress: '肩部 · 三角肌', pulldown: '背部 · 背阔肌',
   cablerow: '背部 · 中背', legpress: '下肢 · 股四头肌', legext: '下肢 · 股四头肌',
   legcurl: '下肢 · 腘绳肌', backext: '核心 · 下背', curl: '手臂 · 肱二头肌',
   pushdown: '手臂 · 肱三头肌', bike: '有氧 · 下肢', plank: '核心 · 腹部',
@@ -491,6 +496,9 @@ const BACKEXT_KEY = 'backext'
 const POWERBAR_KEY = 'powerbar'
 const LEGCURL_KEY = 'legcurl'
 const LEGPRESS_KEY = 'legpress'
+const DBBENCH_KEY = 'dbbench'
+const BENCHPRESS_KEY = 'benchpress'
+const PULLDOWN_KEY = 'pulldown'
 
 /**
  * 项目改名表：旧名（名称核心）→ 新名。
@@ -573,6 +581,24 @@ function isLegcurlName(name) {
   const core = nameCore(name)
   return core === '坐/卧 弯腿举' || core === '坐卧弯腿举' ||
     core === '俯卧腿弯举' || core === '腿弯举'
+}
+
+/** 哑铃卧推：名字里同时有「哑铃」和「卧推」就算（如「哑铃平板卧推」） */
+function isDumbbellBenchName(name) {
+  const core = nameCore(name)
+  return core.indexOf('哑铃') >= 0 && core.indexOf('卧推') >= 0
+}
+
+/** 杠铃卧推：含「卧推」但不含「哑铃」；先跑哑铃规则，避免被这里抢走 */
+function isBarbellBenchName(name) {
+  const core = nameCore(name)
+  return core.indexOf('卧推') >= 0 && core.indexOf('哑铃') < 0
+}
+
+/** Pull Down：中文「高位下拉」或英文名（nameCore 会把空格和大小写抹平） */
+function isPulldownName(name) {
+  const core = nameCore(name)
+  return core === 'pulldown' || core.indexOf('高位下拉') >= 0
 }
 
 /** 按 key 取一条内置定义 */
@@ -815,11 +841,14 @@ function mergeDuplicateExercises(list) {
   /* 早先「坐/卧 弯腿举」被误升级成「倒蹬机」的：把数据搬回内置弯腿举，倒蹬机重建为干净新项目 */
   if (splitLegcurlFromLegpress(list)) listChanged = true
 
-  /* 「山羊挺身」「臂力棒」「坐/卧 弯腿举」「倒蹬机」升级为内置项目：自定义的同名项就地转换，记录一起搬过去 */
+  /* 自定义的同名项就地升级为内置项，记录一起搬过去；哑铃卧推必须先于杠铃卧推，否则会被「卧推」抢走 */
   if (promoteBuiltin(list, BACKEXT_KEY, isBackextName)) listChanged = true
   if (promoteBuiltin(list, POWERBAR_KEY, isPowerbarName)) listChanged = true
   if (promoteBuiltin(list, LEGCURL_KEY, isLegcurlName)) listChanged = true
   if (promoteBuiltin(list, LEGPRESS_KEY, isLegpressName)) listChanged = true
+  if (promoteBuiltin(list, DBBENCH_KEY, isDumbbellBenchName)) listChanged = true
+  if (promoteBuiltin(list, BENCHPRESS_KEY, isBarbellBenchName)) listChanged = true
+  if (promoteBuiltin(list, PULLDOWN_KEY, isPulldownName)) listChanged = true
 
   /* 项目改名：老名字就地升级，已有记录跟着走（记录挂在 key 上，不用动） */
   list.forEach(function (e) {
@@ -1491,6 +1520,8 @@ function sumOfDate(date) {
  * 越具体的规则要排在越前面，避免「澳式引体」被「引体向上」抢先匹配。
  */
 const BW_RULES = [
+  /* 卧推 / 高位下拉：阻力来自杠铃、哑铃或器械配重，不做自重折算 */
+  { ratio: 0, keys: ['dbbench', 'benchpress', 'pulldown'], names: ['哑铃卧推', '杠铃卧推', '卧推', '高位下拉', 'pulldown'] },
   /* 倒蹬机提踵：踩在踏板上，身体重量由座椅承担，只算器械配重
      （必须排在「提踵」规则前面，否则会被站姿提踵的 100% 抢先命中） */
   { ratio: 0, keys: ['legpresscalf'], names: ['倒蹬机提踵', '倒蹬提踵', '腿举提踵'] },

@@ -50,27 +50,11 @@ function bestHint(best, weightValue) {
   return { best: b, text: '纪录 ' + fmtNum(b) + 'kg · 超出 ' + fmtNum(-gap) + 'kg', tone: 'ahead' }
 }
 
-/**
- * 自重项目纪录提示：历史最高「单日总次数」是多少、今天还差多少次。
- * 跟负重输入无关，所以输入 kg 时这行不会跳。
- */
-function repsHint(best, done) {
-  const b = Math.round(Number(best) || 0)
-  if (b <= 0) return { best: 0, text: '暂无次数纪录', tone: 'none' }
-  const cur = Math.round(Number(done) || 0)
-  const gap = b - cur
-  if (gap > 0) return { best: b, text: '纪录 ' + formatKg(b) + '次 · 还差 ' + formatKg(gap) + '次', tone: 'behind' }
-  if (gap === 0) return { best: b, text: '纪录 ' + formatKg(b) + '次 · 已追平', tone: 'match' }
-  return { best: b, text: '纪录 ' + formatKg(b) + '次 · 超出 ' + formatKg(-gap) + '次', tone: 'ahead' }
-}
-
-/** 单项当日成绩的历史排名提示：自重项目用「次」，其他用 kg */
+/** 单项当日训练量的历史排名提示 */
 function loadRankHint(rank) {
   if (!rank) return ''
   if (rank.rank <= 1) return '历史第 1 · 已是最高'
-  const reps = rank.unit === 'reps'
-  const gap = reps ? rank.gap : rank.gapKg
-  return '历史第 ' + rank.rank + ' · 还差 ' + formatKg(gap) + (reps ? '次' : 'kg') + ' 进第 ' + (rank.rank - 1)
+  return '历史第 ' + rank.rank + ' · 还差 ' + formatKg(rank.gapKg) + 'kg 进第 ' + (rank.rank - 1)
 }
 
 /* 以 center 为中心生成一整条拨轮（自左向右递增）；超出 1~100 的格子留空 */
@@ -149,7 +133,6 @@ Page({
     inputWeight: '',
     modalBestHint: '',   // 弹窗里的负重纪录提示
     modalBest: 0,
-    modalBw: false,      // 自重项目的弹窗提示按次数算
 
     confetti: []         // 记录成功时的撒花纸屑，动画结束清空
   },
@@ -276,9 +259,9 @@ Page({
       const weight = weightMap[ex.key] !== undefined
         ? weightMap[ex.key]
         : (lastWeights[ex.key] > 0 ? String(lastWeights[ex.key]) : '')
-      /* 自重项目按当天总次数算纪录/排名，其他项目按负重 kg */
-      const bw = S.isBodyweightExercise(ex)
-      const bh = bw ? repsHint(S.bestRepsOf(ex.key), done) : bestHint(bestMap[ex.key], weight)
+      /* 负重旁标出这个项目的历史最高负重，以及当前输入离它还差多少 kg */
+      const bh = bestHint(bestMap[ex.key], weight)
+      /* 训练量旁标出这个项目当日总量在历史里排第几、离前一名还差多少 */
       const lr = S.exerciseLoadRank(date, ex.key)
       return {
         key: ex.key,
@@ -456,12 +439,8 @@ Page({
     if (!this._weights) this._weights = {}
     this._weights[type] = value
     S.setLastWeight(type, value)
-    /* 负重项目边输入边刷新「离纪录还差多少公斤」；自重项目只按次数算，不受输入影响 */
-    const ex = S.getExerciseMap()[type] || {}
-    const card = this.data.cards[i]
-    const bh = S.isBodyweightExercise(ex)
-      ? repsHint(S.bestRepsOf(type), card.done)
-      : bestHint(S.getBestWeight(type), value)
+    /* 一边输入一边刷新「离纪录还差多少公斤」，不用等记完一组 */
+    const bh = bestHint(S.getBestWeight(type), value)
     const patch = {}
     patch['cards[' + i + '].weight'] = value
     patch['cards[' + i + '].bestHint'] = bh.text
@@ -526,10 +505,6 @@ Page({
     const ex = S.getExerciseMap()[type] || { name: '该项目' }
     const card = this.data.cards.filter(function (c) { return c.key === type })[0]
     const inputWeight = card ? (card.weight || '') : ''
-    const bw = S.isBodyweightExercise(ex)
-    const bh = bw
-      ? repsHint(S.bestRepsOf(type), card ? card.done : 0)
-      : bestHint(S.getBestWeight(type), inputWeight)
     this.setData({
       showModal: true,
       modalType: type,
@@ -539,9 +514,8 @@ Page({
       modalColor: ex.color,
       inputReps: card ? String(card.reps) : '',
       inputWeight: inputWeight,
-      modalBest: bw ? bh.best : S.getBestWeight(type),
-      modalBestHint: bh.text,
-      modalBw: bw
+      modalBest: S.getBestWeight(type),
+      modalBestHint: bestHint(S.getBestWeight(type), inputWeight).text
     })
   },
 
@@ -556,11 +530,6 @@ Page({
   },
 
   onWeightInput(e) {
-    if (this.data.modalBw) {
-      /* 自重项目的纪录只看次数，改负重输入不提示 */
-      this.setData({ inputWeight: e.detail.value })
-      return
-    }
     this.setData({
       inputWeight: e.detail.value,
       modalBestHint: bestHint(this.data.modalBest, e.detail.value).text

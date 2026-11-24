@@ -120,7 +120,7 @@ function kgText(v) {
   return String(Math.round((Number(v) || 0) * 10) / 10).replace(/\.0$/, '')
 }
 
-/** 原来俏皮话的位置改成破纪录播报：自重项目报次数，其他项目报负重 */
+/** 原来俏皮话的位置改成「单项负重新纪录」播报 */
 function recordBroadcast(date) {
   let breaks = []
   try {
@@ -130,7 +130,6 @@ function recordBroadcast(date) {
   }
   if (!breaks.length) return '今日没有打破记录的项目'
   return breaks.map(function (b) {
-    if (b.kind === 'reps') return b.name + ' 次数新纪录 ' + kgText(b.reps) + '次'
     return b.name + ' 负重新纪录 ' + kgText(b.weight) + '公斤'
   }).join('，')
 }
